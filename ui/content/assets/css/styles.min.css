@@ -6,16 +6,7 @@ body {
     background-attachment: fixed !important;
 }
 
-/* Logo with neon effect */
-.pptech-logo {
-    filter: drop-shadow(0 0 8px #6a4c93) drop-shadow(0 0 16px #6a4c93) drop-shadow(0 0 24px #6a4c93);
-    transition: filter 0.3s ease;
-}
-
-.pptech-logo:hover {
-    filter: drop-shadow(0 0 12px #6a4c93) drop-shadow(0 0 24px #6a4c93) drop-shadow(0 0 36px #6a4c93);
-}
-
+/* Título com efeito neon rosa */
 .navbar-brand {
     display: flex !important;
     align-items: center !important;
@@ -24,14 +15,27 @@ body {
 
 .navbar-brand .hacking-text {
     color: #ffffff !important;
-    font-weight: 300 !important;
-    font-size: 1.2rem !important;
-    text-shadow: 0 0 8px rgba(106, 76, 147, 0.8);
-    transition: text-shadow 0.3s ease;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    font-family: 'Orbitron', 'Nunito', sans-serif !important;
+    text-shadow: 0 0 10px #EB33CC, 0 0 20px #EB33CC, 0 0 30px #EB33CC, 0 0 40px #EB33CC;
+    transition: all 0.3s ease;
+    background: linear-gradient(45deg, #EB33CC, #ff6b9d, #EB33CC);
+    background-size: 200% 200%;
+    animation: neon-pulse 2s ease-in-out infinite alternate;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .navbar-brand:hover .hacking-text {
-    text-shadow: 0 0 12px rgba(106, 76, 147, 1);
+    text-shadow: 0 0 15px #EB33CC, 0 0 25px #EB33CC, 0 0 35px #EB33CC, 0 0 45px #EB33CC;
+    transform: scale(1.05);
+}
+
+@keyframes neon-pulse {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 @keyframes subtle-glow {
@@ -59,18 +63,19 @@ body {
 }
 
 .nav-tabs .nav-link:hover {
-    color: #ffffff !important;
-    background: rgba(106, 76, 147, 0.1);
-    border-color: rgba(106, 76, 147, 0.4);
-    box-shadow: 0 0 8px rgba(106, 76, 147, 0.2);
+    color: #000000 !important;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(235, 51, 204, 0.4);
+    box-shadow: 0 0 8px rgba(235, 51, 204, 0.3);
 }
 
 .nav-tabs .nav-link.active {
-    background: linear-gradient(45deg, #6a4c93, #8e7cc3) !important;
+    background: linear-gradient(45deg, #EB33CC, #ff6b9d) !important;
     color: #ffffff !important;
-    font-weight: 500;
-    border-color: #6a4c93;
-    box-shadow: 0 0 12px rgba(106, 76, 147, 0.4);
+    font-weight: 600;
+    border-color: #EB33CC;
+    box-shadow: 0 0 12px rgba(235, 51, 204, 0.5);
+    text-shadow: 0 0 5px rgba(235, 51, 204, 0.8);
 }
 
 .bg-primary {
@@ -90,9 +95,9 @@ body {
 }
 
 .list-group-item:hover {
-    background: rgba(106, 76, 147, 0.1) !important;
-    border-color: rgba(106, 76, 147, 0.4) !important;
-    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(235, 51, 204, 0.4) !important;
+    color: #000000 !important;
 }
 
 .form-control {
@@ -114,19 +119,22 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(45deg, #6a4c93, #8e7cc3) !important;
-    border: 1px solid #6a4c93 !important;
+    background: linear-gradient(45deg, #EB33CC, #ff6b9d) !important;
+    border: 1px solid #EB33CC !important;
     color: #ffffff !important;
-    font-weight: 500;
-    box-shadow: 0 2px 8px rgba(106, 76, 147, 0.2);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(235, 51, 204, 0.3);
     transition: all 0.3s ease;
+    text-shadow: 0 0 5px rgba(235, 51, 204, 0.8);
 }
 
 .btn-primary:hover {
-    background: linear-gradient(45deg, #8e7cc3, #6a4c93) !important;
+    background: linear-gradient(45deg, #ff6b9d, #EB33CC) !important;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(106, 76, 147, 0.4);
-    border-color: #8e7cc3 !important;
+    box-shadow: 0 4px 15px rgba(235, 51, 204, 0.6);
+    border-color: #ff6b9d !important;
+    color: #ffffff !important;
+    text-shadow: 0 0 8px rgba(235, 51, 204, 1);
 }
 
 .btn-secondary {
@@ -165,18 +173,19 @@ body {
 }
 
 .accordion-button:hover {
-    background: rgba(106, 76, 147, 0.1) !important;
-    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #000000 !important;
 }
 
 .accordion-button:focus {
-    box-shadow: 0 0 8px rgba(106, 76, 147, 0.3) !important;
+    box-shadow: 0 0 8px rgba(235, 51, 204, 0.3) !important;
 }
 
 .accordion-button:not(.collapsed) {
-    background: rgba(106, 76, 147, 0.2) !important;
+    background: linear-gradient(45deg, #EB33CC, #ff6b9d) !important;
     color: #ffffff !important;
-    border-color: rgba(106, 76, 147, 0.4) !important;
+    border-color: #EB33CC !important;
+    text-shadow: 0 0 5px rgba(235, 51, 204, 0.8);
 }
 
 .accordion-body {
