@@ -1,0 +1,60 @@
+REM Teste simples para teclado ABNT2 (Português Brasileiro)
+REM Para validar funcionamento do layout antes de usar o agent completo
+
+DELAY 3000
+
+REM Teste 1: Abrir notepad e escrever caracteres especiais ABNT2
+GUI R
+DELAY 500
+STRING notepad
+ENTER
+DELAY 2000
+
+STRING Teste ABNT2 - Caracteres especiais:
+ENTER
+STRING Acentos: áéíóú àèìòù âêîôû ãõ çñ
+ENTER
+STRING Cedilha: ç Ç
+ENTER
+STRING Til: ã õ Ã Õ
+ENTER
+REM Teste da barra invertida (backslash) com RAW_HID
+STRING Barra invertida:
+RAW_HID 0x73
+ENTER
+STRING Arroba: @
+ENTER
+STRING Aspas: " '
+ENTER
+STRING Chaves: { } [ ]
+ENTER
+STRING Parenteses: ( )
+ENTER
+
+REM Teste 2: Abrir prompt de comando
+DELAY 2000
+GUI R
+DELAY 500
+STRING cmd
+ENTER
+DELAY 1000
+
+REM Teste de comando com barra invertida
+STRING cd
+RAW_HID 0x73
+ENTER
+DELAY 500
+
+STRING dir
+ENTER
+DELAY 1000
+
+STRING exit
+ENTER
+
+REM Finalizar indicando sucesso
+DELAY 1000
+ALT F4
+DELAY 500
+STRING n
+ENTER

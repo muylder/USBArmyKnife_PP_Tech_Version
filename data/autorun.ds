@@ -1,0 +1,151 @@
+REM ======================================================
+REM Teste Completo de Layout ABNT2 - USBArmyKnife PP_Tech
+REM Demonstração para Incoflandres - Apresentação CEO
+REM ======================================================
+
+REM Aguarda sistema estabilizar
+DELAY 2000
+
+REM Define layout brasileiro ABNT2
+KEYBOARD_LAYOUT win_pt-BR
+
+REM Abre o Bloco de Notas
+GUI r
+DELAY 500
+STRING notepad
+ENTER
+DELAY 1500
+
+REM Maximiza a janela
+GUI UP
+DELAY 500
+
+REM ===== TESTE DE LAYOUT ABNT2 COMPLETO =====
+STRING === TESTE USBArmyKnife PP_Tech - LAYOUT ABNT2 ===
+ENTER
+ENTER
+
+STRING Data/Hora:
+STRING #_DATE_# #_TIME_#
+ENTER
+ENTER
+
+STRING === TESTE DE CARACTERES ESPECIAIS ABNT2 ===
+ENTER
+
+STRING 1. Acentos Agudos: á é í ó ú
+ENTER
+STRING 2. Acentos Graves: à
+ENTER
+STRING 3. Acentos Circunflexos: â ê ô
+ENTER
+STRING 4. Til: ã õ ñ
+ENTER
+STRING 5. Cedilha: ç
+ENTER
+ENTER
+
+STRING === CARACTERES ESPECIAIS DO TECLADO ===
+ENTER
+STRING Símbolos: @#$%&*()_+-={}[]|\:";'<>,.?/
+ENTER
+STRING Aspas: "teste" 'aspas simples'
+ENTER
+STRING Parênteses: (teste) [colchetes] {chaves}
+ENTER
+ENTER
+
+STRING === PALAVRAS BRASILEIRAS COM ACENTOS ===
+ENTER
+STRING • Ação, operação, função, informação
+ENTER
+STRING • Coração, eleição, solução
+ENTER
+STRING • São Paulo, João, não, então
+ENTER
+STRING • Pão, mão, questão, decisão
+ENTER
+STRING • Açúcar, açaí, Paraná
+ENTER
+ENTER
+
+STRING === FRASES COMPLETAS ===
+ENTER
+STRING "A demonstração técnica será às 15h30."
+ENTER
+STRING 'O pentest identificou 27 vulnerabilidades críticas.'
+ENTER
+STRING Configuração: usuário@servidor.com.br
+ENTER
+STRING Senha: P@ssw0rd#2024!
+ENTER
+ENTER
+
+STRING === NÚMEROS E SÍMBOLOS FINANCEIROS ===
+ENTER
+STRING Preços: R$ 1.299,90 - US$ 250.00 - € 200,50
+ENTER
+STRING Percentuais: 15% de desconto, 3,5% de juros
+ENTER
+STRING Fórmulas: (100 + 50) × 2 = 300
+ENTER
+ENTER
+
+STRING === TESTE DE COMANDOS E CAMINHOS ===
+ENTER
+STRING Diretório: C:\Projetos\Incoflandres\2024
+ENTER
+STRING URL: https://www.incoflandres.com.br/admin
+ENTER
+STRING Email: admin@incoflandres.com.br
+ENTER
+STRING Comando: nmap -sS -O 192.168.1.0/24
+ENTER
+ENTER
+
+STRING === TESTE COMPLETO - STATUS ===
+ENTER
+STRING ✓ Layout ABNT2: FUNCIONANDO
+ENTER
+STRING ✓ Acentuação: FUNCIONANDO
+ENTER
+STRING ✓ Caracteres especiais: FUNCIONANDO
+ENTER
+STRING ✓ Símbolos financeiros: FUNCIONANDO
+ENTER
+STRING ✓ USBArmyKnife PP_Tech: OPERACIONAL
+ENTER
+ENTER
+
+STRING === INCOFLANDRES - PENTEST DEMO ===
+ENTER
+STRING Dispositivo: LilyGO T-Dongle S3
+ENTER
+STRING Firmware: USBArmyKnife v2024
+ENTER
+STRING Customização: PP_Tech Cyberpunk Theme
+ENTER
+STRING Status: PRONTO PARA DEMONSTRAÇÃO AO CEO
+ENTER
+ENTER
+
+STRING 🔐 PP_Tech - Hacking Tools & Security Solutions 🔐
+ENTER
+
+REM Aguarda 3 segundos para leitura
+DELAY 3000
+
+REM Salva o arquivo automaticamente
+CTRL s
+DELAY 500
+STRING teste-abnt2-incoflandres
+ENTER
+DELAY 1000
+
+REM Mensagem final
+ENTER
+ENTER
+STRING === TESTE FINALIZADO COM SUCESSO ===
+ENTER
+STRING Layout ABNT2 validado para apresentação!
+ENTER
