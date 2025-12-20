@@ -77,5 +77,5 @@
     "theme-by-language.themes": {
         "filename:.*\\.ds$": "LightDuckyScript"
     },
-    "workbench.colorTheme": "Visual Studio Light"
+    "workbench.colorTheme": "Visual Studio Dark"
 }
