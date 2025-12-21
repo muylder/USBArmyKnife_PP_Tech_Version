@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>USB Army Knife - User Manual</title>
-    <script>!function(){const e=()=>localStorage.getItem("theme"),t=document.documentElement.getAttribute("data-bss-forced-theme"),a=()=>{if(t)return t;const a=e();if(a)return a;const r=document.documentElement.getAttribute("data-bs-theme");return r||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")},r=e=>{"auto"===e&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.setAttribute("data-bs-theme","dark"):document.documentElement.setAttribute("data-bs-theme",e)};r(a());}();</script>
+    <script>!function () { const e = () => localStorage.getItem("theme"), t = document.documentElement.getAttribute("data-bss-forced-theme"), a = () => { if (t) return t; const a = e(); if (a) return a; const r = document.documentElement.getAttribute("data-bs-theme"); return r || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") }, r = e => { "auto" === e && window.matchMedia("(prefers-color-scheme: dark)").matches ? document.documentElement.setAttribute("data-bs-theme", "dark") : document.documentElement.setAttribute("data-bs-theme", e) }; r(a()); }();</script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
+
 <body id="page-top">
     <nav class="navbar navbar-expand bg-dark py-3" data-bs-theme="dark">
         <div class="container">
@@ -17,14 +19,16 @@
             <span class="text-white-50 ms-3">User Manual</span>
         </div>
     </nav>
-    
+
     <div class="container py-4">
         <h1>USB Army Knife User Manual</h1>
         <p class="lead">Welcome to the USB Army Knife, the ultimate tool for penetration testers and red teamers.</p>
         <hr>
 
         <h2 id="introduction">Introduction</h2>
-        <p>The USB Army Knife acts as a swiss-army knife for physical access attacks. It combines the capabilities of a BadUSB (HID attacks), Mass Storage emulation, Network impersonation, and WiFi attacks (via ESP32 Marauder) into a single, low-cost device.</p>
+        <p>The USB Army Knife acts as a swiss-army knife for physical access attacks. It combines the capabilities of a
+            BadUSB (HID attacks), Mass Storage emulation, Network impersonation, and WiFi attacks (via ESP32 Marauder)
+            into a single, low-cost device.</p>
 
         <h2 id="supported-hardware">Supported Hardware</h2>
         <ul>
@@ -39,9 +43,11 @@
 
         <h2 id="getting-started">Getting Started</h2>
         <ol>
-            <li><strong>Flash the Firmware</strong>: Use a web flasher or PlatformIO to flash the specific firmware for your device.</li>
+            <li><strong>Flash the Firmware</strong>: Use a web flasher or PlatformIO to flash the specific firmware for
+                your device.</li>
             <li><strong>Connect</strong>: Plug the device into a USB port.</li>
-            <li><strong>WiFi Setup</strong>: Connect to the WiFi Access Point (<code>iPhone14</code>, password: <code>password</code>).</li>
+            <li><strong>WiFi Setup</strong>: Connect to the WiFi Access Point (<code>iPhone14</code>, password:
+                <code>password</code>).</li>
             <li><strong>Access UI</strong>: Open a browser and navigate to <code>http://4.3.2.1:8080</code>.</li>
         </ol>
 
@@ -49,7 +55,8 @@
         <p>The web interface allows you to:</p>
         <ul>
             <li><strong>Status</strong>: View uptime, storage usage, and active attack status.</li>
-            <li><strong>File Manager</strong>: Upload, download, delete, and edit DuckyScript payloads on the SD card/Internal Flash.</li>
+            <li><strong>File Manager</strong>: Upload, download, delete, and edit DuckyScript payloads on the SD
+                card/Internal Flash.</li>
             <li><strong>Run Payloads</strong>: Execute scripts directly from the browser.</li>
             <li><strong>Marauder Control</strong>: Send commands to the WiFi attack subsystem.</li>
             <li><strong>Agent Interaction</strong>: View output from connected agents.</li>
@@ -93,6 +100,10 @@
             <li><code>DELETE_FILE [file]</code>: Delete file.</li>
             <li><code>RUN_PAYLOAD [script.ds]</code>: Chain payloads.</li>
             <li><code>PARTITION_SWAP</code>: Swap boot partitions.</li>
+            <li><code>RANDOM_DELAY [min] [max]</code>: Wait random duration.</li>
+            <li><code>WAIT_FOR_CAPS_CHANGE</code> / <code>_ON</code> / <code>_OFF</code>: Wait for Caps Lock.</li>
+            <li><code>WAIT_FOR_NUM_CHANGE</code> / <code>_ON</code> / <code>_OFF</code>: Wait for Num Lock.</li>
+            <li><code>WAIT_FOR_SCROLL_CHANGE</code> / <code>_ON</code> / <code>_OFF</code>: Wait for Scroll Lock.</li>
         </ul>
 
         <h3>Agent</h3>
@@ -104,7 +115,8 @@
 
         <h2 id="feature-details">Feature Details</h2>
         <p><strong>HID Attacks</strong>: Standard DuckyScript is fully supported.</p>
-        <p><strong>Mass Storage</strong>: Supports BYOD attacks, Data Exfiltration to hidden images, and localized CD-ROM spoofing.</p>
+        <p><strong>Mass Storage</strong>: Supports BYOD attacks, Data Exfiltration to hidden images, and localized
+            CD-ROM spoofing.</p>
         <p><strong>WiFi & Marauder</strong>: Integrated ESP32Marauder for Beacon Sniffing, Deauth, and PCAP capture.</p>
         <p><strong>Agent Mode</strong>: Enables C2 channel over USB Serial for invisible command execution.</p>
 
@@ -114,13 +126,14 @@
             <li><strong>Script errors</strong>: Check UI logs tab.</li>
             <li><strong>WiFi issues</strong>: Check for thermal throttling.</li>
         </ul>
-        
+
         <div class="my-5">
             <a href="/index.html" class="btn btn-primary">Back to Dashboard</a>
         </div>
     </div>
-    
+
     <footer class="text-center bg-dark text-white-50 py-3"></footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
+
 </html>

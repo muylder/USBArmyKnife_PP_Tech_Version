@@ -82,6 +82,10 @@ The USB Army Knife extends standard DuckyScript with powerful commands.
 *   `DELETE_FILE [file]`: Delete a file.
 *   `RUN_PAYLOAD [script.ds]`: Chain payloads by running another script.
 *   `PARTITION_SWAP`: Swap boot partitions (useful for dual-boot setups or updates).
+*   `RANDOM_DELAY [min] [max]`: Wait for a random duration between min and max milliseconds.
+*   `WAIT_FOR_CAPS_CHANGE` / `_ON` / `_OFF`: Wait for Caps Lock state changes.
+*   `WAIT_FOR_NUM_CHANGE` / `_ON` / `_OFF`: Wait for Num Lock state changes.
+*   `WAIT_FOR_SCROLL_CHANGE` / `_ON` / `_OFF`: Wait for Scroll Lock state changes.
 
 ### Agent
 *   `AGENT_RUN [command]`: Send a shell command to the victim via the Serial Agent.

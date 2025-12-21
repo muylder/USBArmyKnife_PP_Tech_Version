@@ -10,6 +10,7 @@
     - [x] **DuckyScript**: Add `RANDOM_DELAY [min] [max]` for stealth.
     - [x] **DuckyScript**: Add Num Lock triggers (`WAIT_FOR_NUM_...`).
     - [x] **DuckyScript**: Add Scroll Lock triggers (`WAIT_FOR_SCROLL_...`).
+    - [x] **Documentation**: Updated `USER_MANUAL.md` and `manual.html` with new commands.
 
 ## Future Tasks
 - [x] Incorporate `USER_MANUAL.md` into the documentation build process (if any).
