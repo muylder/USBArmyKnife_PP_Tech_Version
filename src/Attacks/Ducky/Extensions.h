@@ -799,6 +799,108 @@ static int handleMouseMove(const std::string &str, const std::unordered_map<std:
     }
 }
 
+// ----------------------------------------------------------------------
+// CAPS LOCK / LED WAITS
+// ----------------------------------------------------------------------
+
+static void doLedWait(const std::function<void(const int &)> &delay, int targetState, uint8_t ledMask)
+{
+    // targetState: 0=Any Change, 1=On, 2=Off
+    uint8_t initialMeta = Devices::USB::HID.getLEDs();
+    bool ledInitial = (initialMeta & ledMask);
+
+    Debug::Log.info(LOG_DUCKY, "Waiting for LED trigger (mask " + std::to_string(ledMask) + "). Initial State: " + std::to_string(ledInitial));
+
+    while (true)
+    {
+        delay(150);
+        
+        uint8_t currentMeta = Devices::USB::HID.getLEDs();
+        bool ledCurrent = (currentMeta & ledMask);
+
+        if (targetState == 0) // Any Change
+        {
+            if (ledCurrent != ledInitial) break;
+        }
+        else if (targetState == 1) // Wait For On
+        {
+            if (ledCurrent) break;
+        }
+        else if (targetState == 2) // Wait For Off
+        {
+            if (!ledCurrent) break;
+        }
+    }
+
+    timeToWait = 0;
+}
+
+#ifdef ARDUINO_ARCH_ESP32
+struct LedWaitParams {
+    int mode;
+    uint8_t mask;
+};
+static LedWaitParams ledParams;
+
+void LedWaitTask(void *arg)
+{
+    LedWaitParams* params = (LedWaitParams*)arg;
+    doLedWait(esp32_task_delay, params->mode, params->mask);
+    vTaskDelete(NULL);
+}
+#endif
+
+static int handleLedWaitGeneric(int mode, uint8_t mask)
+{
+    timeToWait = -1;
+#ifdef ARDUINO_ARCH_ESP32
+    ledParams.mode = mode;
+    ledParams.mask = mask;
+    xTaskCreate(LedWaitTask, "LedWait", 1000, &ledParams, 1, NULL);
+#else
+    doLedWait([](const uint32_t &time) { loop(); }, mode, mask);
+#endif
+    return true;
+}
+
+// Caps Lock (Bit 1, 0x02)
+static int handleWaitForCapsChange(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(0, 0x02); }
+static int handleWaitForCapsOn(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(1, 0x02); }
+static int handleWaitForCapsOff(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(2, 0x02); }
+
+// Num Lock (Bit 0, 0x01)
+static int handleWaitForNumChange(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(0, 0x01); }
+static int handleWaitForNumOn(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(1, 0x01); }
+static int handleWaitForNumOff(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(2, 0x01); }
+
+// Scroll Lock (Bit 2, 0x04)
+static int handleWaitForScrollChange(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(0, 0x04); }
+static int handleWaitForScrollOn(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(1, 0x04); }
+static int handleWaitForScrollOff(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables) { return handleLedWaitGeneric(2, 0x04); }
+
+static int handleRandomDelay(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables)
+{
+    std::string arg = str.substr(str.find(' ') + 1);
+    const auto entries = Ducky::SplitString(arg);
+    
+    if (entries.size() == 2)
+    {
+        int minDelay = asciiOrVariableToInt(entries[0], variables);
+        int maxDelay = asciiOrVariableToInt(entries[1], variables);
+        
+        if (maxDelay < minDelay) std::swap(minDelay, maxDelay);
+        
+        int randomDelay = minDelay + (std::rand() % (maxDelay - minDelay + 1));
+        
+        Debug::Log.info(LOG_DUCKY, "Random delay: " + std::to_string(randomDelay) + "ms");
+        requestDelay(randomDelay);
+        return true;
+    }
+    
+    Debug::Log.error(LOG_DUCKY, "RANDOM_DELAY needs 2 args: min max");
+    return false;
+}
+
 static int handleIsWiFiConnected(const std::string &str, const std::unordered_map<std::string, std::string> &constants, const std::unordered_map<std::string, int> &variables)
 {
     return Devices::WiFi.getState();
@@ -858,6 +960,20 @@ void addDuckyScriptExtensions(
     extCommands["MOUSE_MOVE"] = handleMouseMove;
 
     extCommands["KEYBOARD_LAYOUT"] = handleKeyboardLayout;
+    
+    // Stealth & Triggers
+    extCommands["RANDOM_DELAY"] = handleRandomDelay;
+    extCommands["WAIT_FOR_CAPS_CHANGE"] = handleWaitForCapsChange;
+    extCommands["WAIT_FOR_CAPS_ON"] = handleWaitForCapsOn;
+    extCommands["WAIT_FOR_CAPS_OFF"] = handleWaitForCapsOff;
+    
+    extCommands["WAIT_FOR_NUM_CHANGE"] = handleWaitForNumChange;
+    extCommands["WAIT_FOR_NUM_ON"] = handleWaitForNumOn;
+    extCommands["WAIT_FOR_NUM_OFF"] = handleWaitForNumOff;
+
+    extCommands["WAIT_FOR_SCROLL_CHANGE"] = handleWaitForScrollChange;
+    extCommands["WAIT_FOR_SCROLL_ON"] = handleWaitForScrollOn;
+    extCommands["WAIT_FOR_SCROLL_OFF"] = handleWaitForScrollOff;
 
     // Agent
     extCommands["AGENT_RUN"] = handleAgentRun;

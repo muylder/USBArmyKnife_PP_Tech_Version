@@ -35,6 +35,8 @@ static String wiFiApPwd = WIFI_AP_PWD_DEFAULT;
 static bool wifiAPMode = WIFI_AP_MODE_DEFAULT;
 
 static unsigned long lastMinValueChecked = 0;
+static unsigned long lastWifiConnectionAttempt = 0;
+static const unsigned long WIFI_RECONNECT_INTERVAL = 10000; // 10 seconds
 
 namespace Devices
 {
@@ -117,6 +119,19 @@ void HardwareWiFi::loop(Preferences& prefs)
   else if (WiFi.getMode() != WIFI_OFF)
   {
     Comms::Web.loop(prefs);
+    
+    // Auto-reconnect logic for Station Mode
+    if (!wifiAPMode && desiredWiFiState && WiFi.status() != WL_CONNECTED)
+    {
+        unsigned long currentMillis = millis();
+        if (currentMillis - lastWifiConnectionAttempt >= WIFI_RECONNECT_INTERVAL)
+        {
+            lastWifiConnectionAttempt = currentMillis;
+            Debug::Log.warning(LOG_WIFI, "WiFi lost. Attempting to reconnect...");
+            WiFi.disconnect(); 
+            WiFi.reconnect();
+        }
+    }
   }
 
   // If we are connected to something that can show these debug logs then emit them

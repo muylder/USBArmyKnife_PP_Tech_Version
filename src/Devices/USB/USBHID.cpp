@@ -39,7 +39,32 @@ struct MOUSE_EVENT
 static std::queue<KEY_EVENT> eventsToProcess;
 static std::queue<std::pair<uint8_t, uint16_t>> cdcEventsToProcess;
 static std::queue<MOUSE_EVENT> mouseEventsToProcess;
+static std::queue<MOUSE_EVENT> mouseEventsToProcess;
 Adafruit_USBD_HID *usb_hid = nullptr;
+static uint8_t currentLedStatus = 0;
+
+// Output report callback for LED status
+void hid_report_callback(uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize)
+{
+  (void) report_id;
+  (void) bufsize;
+
+  // LED report is type output
+  if (report_type == HID_REPORT_TYPE_OUTPUT)
+  {
+    // The buffer contains the LED bitmask:
+    // bit 0: Num Lock
+    // bit 1: Caps Lock
+    // bit 2: Scroll Lock
+    // bit 3: Compose
+    // bit 4: Kana
+    if (bufsize > 0)
+    {
+        currentLedStatus = buffer[0];
+        // Debug::Log.info(TAG_USB, "LED status: " + std::to_string(currentLedStatus));
+    }
+  }
+}
 
 USBHID::USBHID()
 {
@@ -55,6 +80,7 @@ void USBHID::begin(Preferences &prefs)
         usb_hid->setPollInterval(2);
         usb_hid->setReportDescriptor(desc_hid_report, sizeof(desc_hid_report));
         usb_hid->setStringDescriptor("HID Composite");
+        usb_hid->setReportCallback(NULL, hid_report_callback); // Register callback
         usb_hid->begin();
 
         if (TinyUSBDevice.mounted())
@@ -129,6 +155,11 @@ void USBHID::mouseMove(int8_t xDelta, int8_t yDelta)
     event.yDelta = yDelta;
 
     mouseEventsToProcess.push(event);
+}
+
+uint8_t USBHID::getLEDs()
+{
+    return currentLedStatus;
 }
 
 void USBHID::loop(Preferences &prefs)

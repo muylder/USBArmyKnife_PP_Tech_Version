@@ -15,6 +15,8 @@ public:
   void keyboard_release();
   void consumer_device_keypress(const uint16_t keyCode);
   void mouseMove(int8_t xDelta, int8_t yDelta);
+
+  uint8_t getLEDs(); // Returns bitmask: 0x01 NumLock, 0x02 CapsLock, 0x04 ScrollLock
 };
 
 namespace Devices::USB

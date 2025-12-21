@@ -33,6 +33,8 @@ void loop() {}
 static Preferences prefs;
 static Auxiliary aux;
 static BoardSupport board;
+static unsigned long lastHeapCheck = 0;
+static const uint32_t LOW_HEAP_THRESHOLD = 20 * 1024; // 20KB
 
 void setup()
 {
@@ -147,6 +149,17 @@ void loop()
   Attacks::Agent.loop(prefs);
 
   aux.loop(prefs);
+  
+  // Robustness: Heap Monitoring
+  if (millis() - lastHeapCheck > 60000) // Check every minute
+  {
+     lastHeapCheck = millis();
+     uint32_t freeHeap = ESP.getFreeHeap();
+     if (freeHeap < LOW_HEAP_THRESHOLD)
+     {
+        Debug::Log.warning(TAG, "Low Heap Warning: " + std::to_string(freeHeap) + " bytes free");
+     }
+  }
 }
 
 #endif /* ARDUINO_USB_MODE */
