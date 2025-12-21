@@ -1,5 +1,7 @@
 #include "HardwareStorage.h"
 #include "../../Debug/Logging.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/semphr.h>
 
 #ifdef NO_SD
     #ifdef ARDUINO_ARCH_RP2040
@@ -38,6 +40,7 @@
 
 static uint8_t cachedCapacity = 0;
 static std::vector<std::string> filesCache;
+static SemaphoreHandle_t fsMutex = NULL;
 
 namespace Devices
 {
@@ -46,9 +49,11 @@ namespace Devices
 
 std::string HardwareStorage::readFile(fs::FS &fs, const char *path)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     File file = fs.open(path, "r");
     if (!file)
     {
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return "";
     }
     std::string line;
@@ -56,15 +61,19 @@ std::string HardwareStorage::readFile(fs::FS &fs, const char *path)
     {
         line = line + (char)file.read();
     }
+    file.close(); // Ensure close before give
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
     return line;
 }
 
 void HardwareStorage::writeFileData(const std::string& filename, const uint8_t *buffer, const size_t size)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     File file = FILE_INTERFACE.open(filename.c_str(), "w");
     if (!file)
     {
         Debug::Log.info(LOG_MMC, "Could not open file");
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return;
     }
     
@@ -75,46 +84,64 @@ void HardwareStorage::writeFileData(const std::string& filename, const uint8_t *
 
     file.close();
     refreshCache();
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
 }
 
+// WARNING: Returning a File object is inherently unsafe if used across threads
+// without holding the lock for the duration of the File object's lifetime.
+// However, since we can't easily lock for the lifetime of the object returned,
+// callers must be careful or we need a wrapper. 
+// For now, we protect the open call.
 File HardwareStorage::openFile(const std::string& filename, const char* mode)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     File file = FILE_INTERFACE.open(filename.c_str(), mode);
     if (!file)
     {
         Debug::Log.error(LOG_MMC, "Could not open file");
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return File();
     }
 
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
     return file;
 }
 
 std::size_t HardwareStorage::getFileSize(const std::string& filename)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     File file = FILE_INTERFACE.open(filename.c_str(), "r");
     if (!file)
     {
         Debug::Log.info(LOG_MMC, "Could not open file: " + filename);
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return 0;
     }
 
     // Get the file size
     int ret = file.size();
     file.close();
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
     return ret;
 }
 
 bool HardwareStorage::doesFileExist(const std::string& filename)
 {
-    return FILE_INTERFACE.exists(filename.c_str());
+    bool ret = false;
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
+    ret = FILE_INTERFACE.exists(filename.c_str());
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
+    return ret;
 }
 
 uint8_t* HardwareStorage::readFileAsBinary(const std::string& filename)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     File file = FILE_INTERFACE.open(filename.c_str(), "r");
     if (!file)
     {
         Debug::Log.info(LOG_MMC, "Could not open file: " + filename);
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return 0;
     }
 
@@ -127,6 +154,7 @@ uint8_t* HardwareStorage::readFileAsBinary(const std::string& filename)
     {
         Debug::Log.info(LOG_MMC, "Could not alloc");
         file.close();
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return 0;
     }
 
@@ -136,21 +164,26 @@ uint8_t* HardwareStorage::readFileAsBinary(const std::string& filename)
         Debug::Log.info(LOG_MMC, "Could not read");
         free(fileContent);
         file.close();
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return 0;
     }
 
     // Null-terminate the buffer
     fileContent[fileSize] = '\0';
+    file.close();
 
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
     return fileContent;
 }
 
 std::string HardwareStorage::readLineFromFile(const std::string &filename, const int lineNumber)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     File file = FILE_INTERFACE.open(filename.c_str(), "r");
     if (!file)
     {
         Debug::Log.info(LOG_MMC, "Could not open file: " + filename);
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return "";
     }
 
@@ -166,8 +199,10 @@ std::string HardwareStorage::readLineFromFile(const std::string &filename, const
         line = "";
         currentLine++;
     }
+    file.close();
 
     std::string ret = std::string(line.c_str());
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
 
     if (ret.length() == 1 && ret[0] == '\n')
     {
@@ -217,8 +252,10 @@ static void listDir(std::vector<std::string> &files, fs::FS &fs, const char *dir
 
 std::vector<std::string> HardwareStorage::listFiles()
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     if (filesCache.size() != 0)
     {
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return filesCache;
     }
 
@@ -227,13 +264,16 @@ std::vector<std::string> HardwareStorage::listFiles()
         listDir(filesCache, FILE_INTERFACE, "/");
     }
 
-    return filesCache;
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
+    return filesCache; // Returns copy
 }
 
 uint8_t HardwareStorage::usedPercentage()
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     if (cachedCapacity != 0)
     {
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return cachedCapacity;
     }
 #if defined(NO_SD) && defined(ARDUINO_ARCH_RP2040)
@@ -249,25 +289,32 @@ uint8_t HardwareStorage::usedPercentage()
 #else
     cachedCapacity = (FILE_INTERFACE.usedBytes() / FILE_INTERFACE.totalBytes()) * 100;
 #endif
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
     return cachedCapacity;
 }
 
 bool HardwareStorage::createEmptyFile(const std::string &filename)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     File file = FILE_INTERFACE.open(filename.c_str(), "w");
     if (!file)
     {
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
         return false;
     }
     file.close();
     refreshCache();
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
     return true;
 }
 
 bool HardwareStorage::deleteFile(const std::string& filename)
 {
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
     refreshCache();
-    return FILE_INTERFACE.remove(filename.c_str());
+    bool res = FILE_INTERFACE.remove(filename.c_str());
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
+    return res;
 }
 
 HardwareStorage::HardwareStorage()
@@ -277,6 +324,7 @@ HardwareStorage::HardwareStorage()
     SD_MMC = FILE_INTERFACE;
 #endif
 #endif
+    fsMutex = xSemaphoreCreateMutex();
 }
 
 bool HardwareStorage::isRawAccessSupported()

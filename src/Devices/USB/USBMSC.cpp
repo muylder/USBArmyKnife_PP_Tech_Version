@@ -126,7 +126,8 @@ bool USBMSC::mountSD()
     // Set Lun ready (disk is always ready)
     usb_msc.setUnitReady(true);
 
-    // FIXME: This shouldn't cause an issue but the device doesn't appear
+    // Resetting the USB Core forces the host to re-enumerate the device,
+    // which is necessary for the new MSC capability to be recognized.
     Devices::USB::Core.reset();
 
     if (!usb_msc.begin())
@@ -153,10 +154,13 @@ void USBMSC::loop(Preferences &prefs)
 
 void USBMSC::end()
 {
-    if (!mscFile)
+    usb_msc.setUnitReady(false);
+    
+    // If we have an open file, close it
+    if (mscFile)
     {
-        usb_msc.setUnitReady(false);
         mscFile.flush();
+        mscFile.close();
     }
 }
 

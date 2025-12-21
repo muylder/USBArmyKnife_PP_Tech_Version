@@ -18,7 +18,10 @@ public:
   void info(const char* component, const std::string& msg);
   void warning(const char* component, const std::string& msg);
   void error(const char* component, const std::string& msg);
-  std::vector<std::string> &getLogs();
+  
+  // Returns a snapshot of current logs for thread safety
+  std::vector<std::string> getLogs();
+  void clear();
 };
 
 namespace Debug

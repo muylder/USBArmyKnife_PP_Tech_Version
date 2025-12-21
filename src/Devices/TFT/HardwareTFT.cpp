@@ -5,6 +5,8 @@
 #include "../../Attacks/Ducky/DuckyPayload.h"
 
 #include <LovyanGFX.hpp>
+#include <freertos/FreeRTOS.h>
+#include <freertos/semphr.h>
 
 #define LOG_TFT "TFT"
 #define MAX_RADIUS 4
@@ -132,6 +134,7 @@ public:
 static LGFX_Panel lcd;
 static int16_t xpos = 0;
 static int16_t ypos = 0;
+static SemaphoreHandle_t tftMutex = NULL;
 
 namespace Devices
 {
@@ -140,29 +143,37 @@ namespace Devices
 
 void HardwareTFT::display(const int &x, const int &y, const std::string &str)
 {
+    if (tftMutex != NULL) xSemaphoreTake(tftMutex, portMAX_DELAY);
     lcd.setCursor(x, y);
     lcd.setTextColor(TFT_WHITE);
     lcd.println(str.c_str());
     lcd.display();
+    if (tftMutex != NULL) xSemaphoreGive(tftMutex);
 }
 
 void HardwareTFT::clearScreen()
 {
+    if (tftMutex != NULL) xSemaphoreTake(tftMutex, portMAX_DELAY);
     lcd.clear(TFT_BLACK);
     lcd.display();
+    if (tftMutex != NULL) xSemaphoreGive(tftMutex);
 }
 
 void HardwareTFT::powerOff()
 {
+    if (tftMutex != NULL) xSemaphoreTake(tftMutex, portMAX_DELAY);
     lcd.clearDisplay();
     lcd.setBrightness(0);
     lcd.sleep();
+    if (tftMutex != NULL) xSemaphoreGive(tftMutex);
 }
 
 void HardwareTFT::powerOn()
 {
+    if (tftMutex != NULL) xSemaphoreTake(tftMutex, portMAX_DELAY);
     lcd.wakeup();
     lcd.setBrightness(100);
+    if (tftMutex != NULL) xSemaphoreGive(tftMutex);
 }
 
 void HardwareTFT::displayPng(HardwareStorage &storage, const std::string &filename)
@@ -184,7 +195,9 @@ void HardwareTFT::displayPng(HardwareStorage &storage, const std::string &filena
         return;
     }
 
+    if (tftMutex != NULL) xSemaphoreTake(tftMutex, portMAX_DELAY);
     lcd.drawPng((uint8_t *) data, size);
+    if (tftMutex != NULL) xSemaphoreGive(tftMutex);
 
     free(data);
 }
@@ -204,7 +217,9 @@ void HardwareTFT::loop(Preferences &prefs)
 
     previousMillis = currentMillis;
 
+    if (tftMutex != NULL) xSemaphoreTake(tftMutex, portMAX_DELAY);
     lcd.drawCircle(DISPLAY_WIDTH - MAX_RADIUS - 1, DISPLAY_HEIGHT - MAX_RADIUS - 1, radius, color);
+    if (tftMutex != NULL) xSemaphoreGive(tftMutex);
 
     radius = color == TFT_WHITE ? radius - 1 : radius + 1;
 
@@ -223,6 +238,8 @@ void HardwareTFT::loop(Preferences &prefs)
 
 void HardwareTFT::begin(Preferences &prefs)
 {
+    tftMutex = xSemaphoreCreateMutex();
+
     lcd.init();
     lcd.setBrightness(128);
     lcd.clear(TFT_BLACK);

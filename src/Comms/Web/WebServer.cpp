@@ -220,7 +220,7 @@ static void webRequestHandler(AsyncWebServerRequest *request)
   }
   else if (url == "/clearlogs")
   {
-    Debug::Log.getLogs().clear();
+    Debug::Log.clear();
     request->redirect("/index.html"); // redirect to our main page
   }
   else if (url == "/generate_204")
@@ -295,9 +295,10 @@ static void webRequestHandler(AsyncWebServerRequest *request)
       Debug::Log.info(LOG_WEB, std::string("Sending file: ") + filename.c_str());
       AsyncWebServerResponse *response = request->beginResponse(file, filename, "application/octet-stream", true);
       request->send(response);
-      // file.close(); // TODO in order for download to work the file can't be closed
-      // i've had a look at the code and can't see it closed by beginResponse etc
-      // we could be leaking file handles
+      // The File object uses RAII (reference counting). Passing it to beginResponse
+      // creates a copy in the response object. When the response is finished and destroyed,
+      // the File copy is destroyed, decrementing the ref count. When it hits 0, the file closes.
+      // Explicitly closing it here would invalidate the handle used by the response.
     }
     else
     {
@@ -437,6 +438,8 @@ WebSite::WebSite()
 {
 }
 
+static bool serverHandlersAdded = false;
+
 void WebSite::begin(Preferences &prefs)
 {
   if (Devices::WiFi.getState() == false)
@@ -446,14 +449,21 @@ void WebSite::begin(Preferences &prefs)
 
   preferences = &prefs;
 
-  controlInterfaceWebServer.onFileUpload(handleUpload);
-  controlInterfaceWebServer.onNotFound(webRequestHandler);
-  
-  ws.onEvent(onWsEvent);
-  audio.onEvent(onWsAudioEvent);
+  if (!serverHandlersAdded)
+  {
+    controlInterfaceWebServer.onFileUpload(handleUpload);
+    controlInterfaceWebServer.onNotFound(webRequestHandler);
+    
+    ws.onEvent(onWsEvent);
+    audio.onEvent(onWsAudioEvent);
 
-  controlInterfaceWebServer.addHandler(&ws);
-  controlInterfaceWebServer.addHandler(&audio);
+    controlInterfaceWebServer.addHandler(&ws);
+    controlInterfaceWebServer.addHandler(&audio);
+
+    ElegantOTA.begin(&controlInterfaceWebServer); // Start ElegantOTA
+    serverHandlersAdded = true;
+  }
+  
   controlInterfaceWebServer.begin();
 
   Devices::USB::CDC.setCallback(HostCommand::WSDATARECV, [](uint8_t *buffer, const size_t size) -> void
@@ -473,7 +483,7 @@ void WebSite::begin(Preferences &prefs)
     return true;
   });
 
-  ElegantOTA.begin(&controlInterfaceWebServer); // Start ElegantOTA
+  // ElegantOTA started in one-time init above
 }
 
 void WebSite::loop(Preferences &prefs)
@@ -495,9 +505,12 @@ void WebSite::end()
     return;
   }
 
-  // Not removing handlers etc is likely to leak memory
-  // However we seem to get crashes if we do :(
-  // TODO for later
+  // Stop the server from listening
+  controlInterfaceWebServer.end();
+  
+  // Note: We do not remove handlers because ESPAsyncWebServer doesn't support 
+  // easy removal and we want to avoid crashes. Since we guard adding them 
+  // with serverHandlersAdded, it's safe to leave them attached.
 }
 
 #endif
