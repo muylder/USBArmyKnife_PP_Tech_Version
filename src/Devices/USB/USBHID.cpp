@@ -39,7 +39,6 @@ struct MOUSE_EVENT
 static std::queue<KEY_EVENT> eventsToProcess;
 static std::queue<std::pair<uint8_t, uint16_t>> cdcEventsToProcess;
 static std::queue<MOUSE_EVENT> mouseEventsToProcess;
-static std::queue<MOUSE_EVENT> mouseEventsToProcess;
 Adafruit_USBD_HID *usb_hid = nullptr;
 static uint8_t currentLedStatus = 0;
 
