@@ -23,6 +23,7 @@ void loop() {}
 #include "Attacks/Ghost/SilentSentinel.h"
 #include "Attacks/Neo/EtherHarvest.h"
 #include "Attacks/Trinity/HydraHID.h"
+#include "Attacks/Trinity/EapHarvester.h"
 #include "Attacks/Shadow/ShadowVolume.h"
 #include "Attacks/Agent/Agent.h"
 
@@ -71,6 +72,7 @@ void setup()
   Attacks::Ghost.begin(prefs);
   Attacks::Neo.begin(prefs);
   Attacks::Trinity.begin(prefs);
+  Attacks::Eap.begin(prefs);
   Attacks::GhostStorage.begin(prefs);
   Attacks::Agent.begin(prefs);
 
@@ -157,6 +159,7 @@ void loop()
   Attacks::Ghost.loop(prefs);
   Attacks::Neo.loop(prefs);
   Attacks::Trinity.loop(prefs);
+  Attacks::Eap.loop(prefs);
   Attacks::GhostStorage.loop(prefs);
   Attacks::Agent.loop(prefs);
 

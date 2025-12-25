@@ -28,7 +28,7 @@ Recent enhancements (Encryption, DuckyScript Visualization) have elevated its op
 | **Discovery** | **T1040** | **Network Sniffing** | **(New)** "Silent Sentinel" passively logs WiFi probe requests to map device locations and identities. |
 | | **T1430** | **Location Tracking** | **(New)** Cataloging Probe Requests reveals previous locations/networks of victims. |
 | **Credential Access** | **T1557.001** | **LLMNR/NBT-NS Poisoning** | **(New)** "Ether-Harvest" responds to broadcast multicast name queries to spoof services. |
-| | **T1557** | **Adversary-in-the-Middle** | USB Ethernet mode captures traffic; Wi-Fi "Evil Portal" captures credentials. |
+| | **T1557** | **Adversary-in-the-Middle** | USB Ethernet mode captures traffic; "EapHarvester" impersonates 802.1X Authenticator to capture MSCHAPv2 hashes. |
 | | **T1040** | **Network Sniffing** | PCAP functionality in USB Ethernet mode captures unencrypted traffic. |
 | | **T1110** | **Brute Force** | Theoretically capable of HID-based PIN/Password guessing (though slow). |
 | | **T1552** | **Unsecured Credentials** | **(Mitigated)** Credentials captured are now encrypted at rest, mitigating simple forensic acquisition by defenders. |

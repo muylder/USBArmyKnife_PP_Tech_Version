@@ -21,7 +21,9 @@
 #include "../../Attacks/Ducky/DuckyPayload.h"
 #include "../../Attacks/Ghost/SilentSentinel.h"
 #include "../../Attacks/Neo/EtherHarvest.h"
+#include "../../Attacks/Neo/EtherHarvest.h"
 #include "../../Attacks/Trinity/HydraHID.h"
+#include "../../Attacks/Trinity/EapHarvester.h"
 #include "../../Attacks/Shadow/ShadowVolume.h"
 
 #include "../../Utilities/Settings.h"
@@ -253,6 +255,8 @@ static void webRequestHandler(AsyncWebServerRequest *request)
     root["neoPoisoned"] = Attacks::Neo.getPoisonedCount();
     root["hydraRunning"] = Attacks::Trinity.isRunning();
     root["hydraIdentity"] = Attacks::Trinity.getCurrentIdentity().manufacturer + " " + Attacks::Trinity.getCurrentIdentity().product;
+    root["eapRunning"] = Attacks::Eap.isRunning();
+    root["eapCaptured"] = Attacks::Eap.getCapturedCount();
     root["shadowActive"] = Attacks::GhostStorage.isShadowActive();
 
     response->setLength();
@@ -352,6 +356,18 @@ static void webRequestHandler(AsyncWebServerRequest *request)
      Debug::Log.info(LOG_WEB, "Stopping Hydra-HID");
      Attacks::Trinity.stop();
      request->send(200, "text/plain", "Hydra-HID Stopped");
+  }
+  else if (url == "/trinity/eap/start")
+  {
+     Debug::Log.info(LOG_WEB, "Starting EAP Harvester");
+     Attacks::Eap.start();
+     request->send(200, "text/plain", "EAP Harvester Started");
+  }
+  else if (url == "/trinity/eap/stop")
+  {
+     Debug::Log.info(LOG_WEB, "Stopping EAP Harvester");
+     Attacks::Eap.stop();
+     request->send(200, "text/plain", "EAP Harvester Stopped");
   }
   else if (url == "/ghost/start")
   {

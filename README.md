@@ -56,6 +56,7 @@ We have reorganized the knowledge base to ensure clarity and accessibility.
 - **WiFi & Bluetooth**: Integrated ESP32 Marauder for wireless audits.
 - **Web Interface**: Bootstrap-based UI for managing payloads via mobile.
 - **Advanced Control**: Agent deployment for remote command execution and VNC-like screen viewing.
+- **[New] EapHarvester**: [Capture Domain Credentials via wired 802.1X](docs/guides/eap_harvesting_guide.md).
 
 ## 📺 Demos
 
