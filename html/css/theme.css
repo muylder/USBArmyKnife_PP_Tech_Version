@@ -1,0 +1,60 @@
+/* 🌸 Cyber-Industrial Theme by Persephone */
+:root {
+    --bg-primary: #0a0e17; /* Deep Cyber Black */
+    --bg-secondary: #111b21;
+    --accent-core: #00ff9d; /* Neon Mint */
+    --accent-danger: #ff0055; /* Cyber Red */
+    --text-primary: #e0e6ed;
+    --text-muted: #94a3b8;
+    --glass-panel: rgba(17, 27, 33, 0.7);
+    --border-glow: 0 0 10px rgba(0, 255, 157, 0.2);
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background-image: radial-gradient(circle at 50% 50%, rgba(0, 255, 157, 0.05) 0%, transparent 50%);
+}
+
+.card {
+    background: var(--glass-panel);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--border-glow);
+    border-color: var(--accent-core);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-core), #00cc7a);
+    border: none;
+    color: #000;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--accent-danger), #cc0044);
+}
+
+.navbar-dark {
+    background-color: var(--bg-secondary) !important;
+    border-bottom: 1px solid rgba(0, 255, 157, 0.1);
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 5px currentColor;
+}
+
+.status-online { color: var(--accent-core); background-color: currentColor; }
+.status-offline { color: var(--accent-danger); background-color: currentColor; }

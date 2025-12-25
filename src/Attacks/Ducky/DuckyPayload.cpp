@@ -59,6 +59,7 @@ static bool requiresReset = false;
 static ExtensionCommands extCommands;
 static UserDefinedConstants consts;
 static std::string localCmdLineToExecute;
+static const size_t MAX_CMD_LINE_LENGTH = 2048;
 static int8_t lastButtonPressState = -1; // For buttons, -1 is not pressed, 0 short press, 1 long press
 static int lastSuccessfullyEvaluatedLine = 0;
 static Preferences *preferences = nullptr;
@@ -92,7 +93,12 @@ static std::string readLineFromFileOrCmdLine(const std::string &filename, const 
     {
         // we are reading a file
         lastSuccessfullyEvaluatedLine = lineNumber;
-        return Devices::Storage.readLineFromFile(filename, lineNumber);
+        std::string line = Devices::Storage.readLineFromFile(filename, lineNumber);
+        if (line.length() > MAX_CMD_LINE_LENGTH) {
+             Debug::Log.error(LOG_DUCKY, "File line too long, truncating");
+             return line.substr(0, MAX_CMD_LINE_LENGTH);
+        }
+        return line;
     }
 }
 
@@ -298,6 +304,10 @@ void DuckyPayload::setPayload(const std::string &path)
 
 void DuckyPayload::setPayloadCmdLine(const std::string &cmdLine)
 {
+    if (cmdLine.length() > MAX_CMD_LINE_LENGTH) {
+        Debug::Log.error(LOG_DUCKY, "Command line too long, ignoring");
+        return;
+    }
     localCmdLineToExecute = std::string(cmdLine.c_str(), cmdLine.length());
 }
 

