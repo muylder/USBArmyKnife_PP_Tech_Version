@@ -123,6 +123,11 @@ static void onWsAudioEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
       // Since I just created theme.css on the filesystem, we should serve it from FS.
       
       return std::make_pair<const uint8_t *, size_t>(nullptr, 0); 
+      return std::make_pair<const uint8_t *, size_t>(nullptr, 0); 
+  }
+  if (url == "/js/ducky_visualizer.js" || url == "/js/log_widget.js") {
+      // Fallback to file system serving for these new JS modules
+      return std::make_pair<const uint8_t *, size_t>(nullptr, 0);
   }
 
   for (const auto &[key, value] : staticHtmlFilesLookup)
