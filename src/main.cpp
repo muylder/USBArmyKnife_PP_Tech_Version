@@ -20,6 +20,8 @@ void loop() {}
 
 #include "Attacks/Marauder/Marauder.h"
 #include "Attacks/Ducky/DuckyPayload.h"
+#include "Attacks/Ghost/SilentSentinel.h"
+#include "Attacks/Neo/EtherHarvest.h"
 #include "Attacks/Agent/Agent.h"
 
 #include "Debug/Logging.h"
@@ -64,6 +66,8 @@ void setup()
   Devices::Touch.begin(prefs);
 
   Attacks::Ducky.begin(prefs);
+  Attacks::Ghost.begin(prefs);
+  Attacks::Neo.begin(prefs);
   Attacks::Agent.begin(prefs);
 
   if (!Devices::Storage.isRunning())
@@ -146,6 +150,8 @@ void loop()
 
   Attacks::Ducky.loop(prefs);
   Attacks::Marauder.loop(prefs);
+  Attacks::Ghost.loop(prefs);
+  Attacks::Neo.loop(prefs);
   Attacks::Agent.loop(prefs);
 
   aux.loop(prefs);

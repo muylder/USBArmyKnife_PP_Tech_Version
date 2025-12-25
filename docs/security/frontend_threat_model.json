@@ -1,0 +1,26 @@
+[
+  {
+    "status": "Open",
+    "severity": "Medium",
+    "title": "DOM-Based XSS via DuckyScript Visualizer",
+    "type": "Information disclosure",
+    "description": "The `DuckyVisualizer.loadScript` method uses `innerText` to set the line content, which is generally safe against XSS. However, if the `scriptContent` source is untrusted or manipulated before reaching this function, it could potentially lead to issues if the implementation changes to use `innerHTML` in the future. Currently safe, but requires monitoring.",
+    "mitigation": "Ensure `innerText` or `textContent` is always used for rendering user-supplied script content. Do not switch to `innerHTML`."
+  },
+  {
+    "status": "Open",
+    "severity": "High",
+    "title": "Insecure Client-Side Credential Handling",
+    "type": "Information disclosure",
+    "description": "The `LogWidget` is designed to handle encrypted credentials. The placeholder `prompt('Enter Decryption Key:')` suggests a future feature where the decryption key is entered in the browser. If this key is stored in a variable accessible to other scripts (e.g., via XSS), it could be stolen.",
+    "mitigation": "When implementing decryption, use the Web Crypto API's `SubtleCrypto` interface. Do not store the key in a global variable or `localStorage`. Ensure the key is zeroed out immediately after use."
+  },
+  {
+    "status": "Mitigated",
+    "severity": "Medium",
+    "title": "Data Tampering in Visualizer",
+    "type": "Tampering",
+    "description": "The visualizer renders what it is told to render. If the backend serves a different script content than what is actually executing, the user could be deceived (Time-of-Check to Time-of-Use).",
+    "mitigation": "Ensure that the API endpoint serving the script content (`/download` or similar) is the exact same source used by the execution engine."
+  }
+]

@@ -19,6 +19,8 @@
 
 #include "../../Attacks/Marauder/Marauder.h"
 #include "../../Attacks/Ducky/DuckyPayload.h"
+#include "../../Attacks/Ghost/SilentSentinel.h"
+#include "../../Attacks/Neo/EtherHarvest.h"
 
 #include "../../Utilities/Settings.h"
 #include "../../version.h"
@@ -242,6 +244,11 @@ static void webRequestHandler(AsyncWebServerRequest *request)
 #ifndef NO_ESP_MARAUDER
     capabilities.add("MARAUDER");
 #endif
+    root["ghostRunning"] = Attacks::Ghost.isRunning();
+    root["ghostRunning"] = Attacks::Ghost.isRunning();
+    root["ghostCaptured"] = Attacks::Ghost.getCapturedCount();
+    root["neoRunning"] = Attacks::Neo.isRunning();
+    root["neoPoisoned"] = Attacks::Neo.getPoisonedCount();
 
     response->setLength();
     response->addHeader("X-Content-Type-Options", "nosniff");
@@ -314,6 +321,32 @@ static void webRequestHandler(AsyncWebServerRequest *request)
       Devices::Mic.stopCapture();
     }
     request->send(200);
+  }
+    request->send(200);
+  }
+  else if (url == "/neo/start")
+  {
+    Debug::Log.info(LOG_WEB, "Starting Ether-Harvest");
+    Attacks::Neo.start();
+    request->send(200, "text/plain", "Ether-Harvest Started");
+  }
+  else if (url == "/neo/stop")
+  {
+    Debug::Log.info(LOG_WEB, "Stopping Ether-Harvest");
+    Attacks::Neo.stop();
+    request->send(200, "text/plain", "Ether-Harvest Stopped");
+  }
+  else if (url == "/ghost/start")
+  {
+    Debug::Log.info(LOG_WEB, "Starting Silent Sentinel");
+    Attacks::Ghost.start();
+    request->send(200, "text/plain", "Silent Sentinel Started");
+  }
+  else if (url == "/ghost/stop")
+  {
+    Debug::Log.info(LOG_WEB, "Stopping Silent Sentinel");
+    Attacks::Ghost.stop();
+    request->send(200, "text/plain", "Silent Sentinel Stopped");
   }
   else if (url == "/download" && request->hasParam("filename"))
   {
