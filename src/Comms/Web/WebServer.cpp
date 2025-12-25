@@ -106,29 +106,10 @@ static void onWsAudioEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
 }
 
 
+std::pair<const uint8_t *, size_t> getStaticHtml(const String& url)
+{
   if (url == "/theme.css")
   {        
-      // In a real scenario with a file system, we would just return that.
-      // But since we are simulating it or might not have FS populated, 
-      // we can't easily inline the whole CSS here without bloat.
-      // However, the staticHtmlFilesLookup is for embedded resources.
-      // Let's assume theme.css is effectively served if we add it to the lookup or
-      // if we have a file handler. 
-      // For this specific codebase structure, files are often served via getStaticHtml 
-      // which looks up in a map. We should likely rely on the file system serving 
-      // which happens in the 'else' block of webRequestHandler if it's not in the map?
-      // Actually, looking at webRequestHandler lines 355-362, it tries getStaticHtml.
-      // If that returns null, it falls through to 404.
-      // BUT, earlier we have file serving logic? 
-      // No... wait.
-      // Ah, lines 287 handle /download.
-      // There is NO general static file serving from SD card for the UI 
-      // except what is in staticHtmlFilesLookup (which are gzipped C arrays).
-      
-      // We must manually serve /theme.css if it exists on SD, OR we must add it to the static lookup.
-      // Since I just created theme.css on the filesystem, we should serve it from FS.
-      
-      return std::make_pair<const uint8_t *, size_t>(nullptr, 0); 
       return std::make_pair<const uint8_t *, size_t>(nullptr, 0); 
   }
   if (url == "/js/ducky_visualizer.js" || url == "/js/log_widget.js") {
@@ -331,8 +312,7 @@ static void webRequestHandler(AsyncWebServerRequest *request)
     }
     request->send(200);
   }
-    request->send(200);
-  }
+
   else if (url == "/neo/start")
   {
     Debug::Log.info(LOG_WEB, "Starting Ether-Harvest");
@@ -485,7 +465,7 @@ static void webRequestHandler(AsyncWebServerRequest *request)
       request->send(response);
     }
     // FALLBACK: Try to serve from SD Card if not in static lookup (e.g. theme.css)
-    else if (Devices::Storage.exists(url.c_str())) 
+    else if (Devices::Storage.doesFileExist(url.c_str())) 
     {
        const char *mime = GetMimeType(url.c_str());
        request->send(Devices::Storage.openFile(url.c_str(), "r"), url, mime != nullptr ? mime : unknown);

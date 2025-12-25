@@ -60,9 +60,7 @@ bool USBNCM::injectPacket(const uint8_t* buffer, uint32_t len)
 {
     if (readyForPackets)
     {
-        // Try to send via TinyUSB networking
-        // Note: writePacket signature usually (void* buf, uint32_t len)
-        return usbNetworking.writePacket((void*)buffer, len);
+        return usbnet_transmitPacket((uint8_t*)buffer, len);
     }
     return false;
 }

@@ -87,6 +87,22 @@ void HardwareStorage::writeFileData(const std::string& filename, const uint8_t *
     if (fsMutex != NULL) xSemaphoreGive(fsMutex);
 }
 
+void HardwareStorage::appendToFile(const std::string& filename, const std::string& content)
+{
+    if (fsMutex != NULL) xSemaphoreTake(fsMutex, portMAX_DELAY);
+    File file = FILE_INTERFACE.open(filename.c_str(), "a");
+    if (!file)
+    {
+        Debug::Log.info(LOG_MMC, "Could not open file for append: " + filename);
+        if (fsMutex != NULL) xSemaphoreGive(fsMutex);
+        return;
+    }
+    file.print(content.c_str());
+    file.close();
+    refreshCache();
+    if (fsMutex != NULL) xSemaphoreGive(fsMutex);
+}
+
 // WARNING: Returning a File object is inherently unsafe if used across threads
 // without holding the lock for the duration of the File object's lifetime.
 // However, since we can't easily lock for the lifetime of the object returned,

