@@ -20,6 +20,7 @@ public:
   virtual uint8_t* readFileAsBinary(const std::string& filename);
   virtual std::string readLineFromFile(const std::string &filename, const int lineNumber);
   virtual void writeFileData(const std::string& filename, const uint8_t *buffer, const size_t size);
+  virtual void appendToFile(const std::string& filename, const std::string& content);
   virtual std::string readFile(fs::FS &fs, const char *path);
   virtual bool deleteFile(const std::string& filename);
   virtual File openFile(const std::string& filename, const char* mode);

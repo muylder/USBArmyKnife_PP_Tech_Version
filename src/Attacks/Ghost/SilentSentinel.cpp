@@ -20,10 +20,7 @@ typedef struct {
     unsigned char payload[];
 } __attribute__((packed)) WifiMgmtHdr;
 
-typedef struct {
-    wifi_pkt_rx_ctrl_t rx_ctrl;
-    uint8_t payload[];
-} __attribute__((packed)) wifi_promiscuous_pkt_t;
+
 
 SilentSentinel::SilentSentinel() {}
 

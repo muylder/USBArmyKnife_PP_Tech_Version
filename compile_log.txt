@@ -1,0 +1,269 @@
+Processing LILYGO-T-Dongle-S3 (board: esp32-s3-devkitc-1; platform: https://github.com/platformio/platform-espressif32.git; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+Compressed data written to src/html/bootstrapMinCss.h
+Compressed data written to src/html/bootstrapMinJs.h
+Compressed data written to src/html/stylesMinCss.h
+Compressed data written to src/html/scriptMinJs.h
+Compressed data written to src/html/indexHtml.h
+Compressed data written to src/html/manualHtml.h
+Compressed data written to src/html/vnc/indexhtml.h
+Compressed data written to src/html/vnc/error_handlerjs.h
+Compressed data written to src/html/vnc/localizationjs.h
+Compressed data written to src/html/vnc/uijs.h
+Compressed data written to src/html/vnc/webutiljs.h
+Compressed data written to src/html/vnc/altsvg.h
+Compressed data written to src/html/vnc/clipboardsvg.h
+Compressed data written to src/html/vnc/connectsvg.h
+Compressed data written to src/html/vnc/ctrlsvg.h
+Compressed data written to src/html/vnc/ctrlaltdelsvg.h
+Compressed data written to src/html/vnc/disconnectsvg.h
+Compressed data written to src/html/vnc/dragsvg.h
+Compressed data written to src/html/vnc/errorsvg.h
+Compressed data written to src/html/vnc/escsvg.h
+Compressed data written to src/html/vnc/expandersvg.h
+Compressed data written to src/html/vnc/fullscreensvg.h
+Compressed data written to src/html/vnc/handlesvg.h
+Compressed data written to src/html/vnc/handle_bgsvg.h
+Compressed data written to src/html/vnc/infosvg.h
+Compressed data written to src/html/vnc/keyboardsvg.h
+Compressed data written to src/html/vnc/powersvg.h
+Compressed data written to src/html/vnc/settingssvg.h
+Compressed data written to src/html/vnc/tabsvg.h
+Compressed data written to src/html/vnc/toggleextrakeyssvg.h
+Compressed data written to src/html/vnc/warningsvg.h
+Compressed data written to src/html/vnc/windowssvg.h
+Compressed data written to src/html/vnc/novnc_icon_smsvg.h
+Compressed data written to src/html/vnc/novnc_iconsvg.h
+Compressed data written to src/html/vnc/novnc_ios_120png.h
+Compressed data written to src/html/vnc/novnc_ios_152png.h
+Compressed data written to src/html/vnc/novnc_ios_167png.h
+Compressed data written to src/html/vnc/novnc_ios_180png.h
+Compressed data written to src/html/vnc/novnc_ios_40png.h
+Compressed data written to src/html/vnc/novnc_ios_58png.h
+Compressed data written to src/html/vnc/novnc_ios_60png.h
+Compressed data written to src/html/vnc/novnc_ios_80png.h
+Compressed data written to src/html/vnc/novnc_ios_87png.h
+Compressed data written to src/html/vnc/novnc_ios_iconsvg.h
+Compressed data written to src/html/vnc/novncico.h
+Compressed data written to src/html/vnc/bellmp3.h
+Compressed data written to src/html/vnc/belloga.h
+Compressed data written to src/html/vnc/basecss.h
+Compressed data written to src/html/vnc/inputcss.h
+Compressed data written to src/html/vnc/Orbitron700ttf.h
+Compressed data written to src/html/vnc/Orbitron700woff.h
+Compressed data written to src/html/vnc/base64js.h
+Compressed data written to src/html/vnc/deflatorjs.h
+Compressed data written to src/html/vnc/desjs.h
+Compressed data written to src/html/vnc/displayjs.h
+Compressed data written to src/html/vnc/encodingsjs.h
+Compressed data written to src/html/vnc/inflatorjs.h
+Compressed data written to src/html/vnc/ra2js.h
+Compressed data written to src/html/vnc/rfbjs.h
+Compressed data written to src/html/vnc/websockjs.h
+Compressed data written to src/html/vnc/copyrectjs.h
+Compressed data written to src/html/vnc/hextilejs.h
+Compressed data written to src/html/vnc/jpegjs.h
+Compressed data written to src/html/vnc/rawjs.h
+Compressed data written to src/html/vnc/rrejs.h
+Compressed data written to src/html/vnc/tightjs.h
+Compressed data written to src/html/vnc/tightpngjs.h
+Compressed data written to src/html/vnc/zrlejs.h
+Compressed data written to src/html/vnc/domkeytablejs.h
+Compressed data written to src/html/vnc/fixedkeysjs.h
+Compressed data written to src/html/vnc/gesturehandlerjs.h
+Compressed data written to src/html/vnc/keyboardjs.h
+Compressed data written to src/html/vnc/keysymjs.h
+Compressed data written to src/html/vnc/keysymdefjs.h
+Compressed data written to src/html/vnc/utiljs.h
+Compressed data written to src/html/vnc/vkeysjs.h
+Compressed data written to src/html/vnc/xtscancodesjs.h
+Compressed data written to src/html/vnc/browserjs.h
+Compressed data written to src/html/vnc/cursorjs.h
+Compressed data written to src/html/vnc/elementjs.h
+Compressed data written to src/html/vnc/eventsjs.h
+Compressed data written to src/html/vnc/eventtargetjs.h
+Compressed data written to src/html/vnc/intjs.h
+Compressed data written to src/html/vnc/loggingjs.h
+Compressed data written to src/html/vnc/md5js.h
+Compressed data written to src/html/vnc/stringsjs.h
+Compressed data written to src/html/vnc/commonjs.h
+Compressed data written to src/html/vnc/adler32js.h
+Compressed data written to src/html/vnc/constantsjs.h
+Compressed data written to src/html/vnc/crc32js.h
+Compressed data written to src/html/vnc/deflatejs.h
+Compressed data written to src/html/vnc/gzheaderjs.h
+Compressed data written to src/html/vnc/inffastjs.h
+Compressed data written to src/html/vnc/inflatejs.h
+Compressed data written to src/html/vnc/inftreesjs.h
+Compressed data written to src/html/vnc/messagesjs.h
+Compressed data written to src/html/vnc/treesjs.h
+Compressed data written to src/html/vnc/zstreamjs.h
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32-s3-devkitc-1.html
+PLATFORM: Espressif 32 (6.12.0+sha.3c07680) > Espressif ESP32-S3-DevKitC-1-N8 (8 MB QD, No PSRAM)
+HARDWARE: ESP32S3 240MHz, 320KB RAM, 8MB Flash
+DEBUG: Current (esp-builtin) On-board (esp-builtin) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - framework-arduinoespressif32 @ 3.0.5+sha.7018cd1 
+ - framework-arduinoespressif32-libs @ 5.1.0+sha.d38afc77db.sha.1a029d5 
+ - tool-esptoolpy @ 2.40900.250804 (4.9.0) 
+ - toolchain-riscv32-esp @ 12.2.0+20230208 
+ - toolchain-xtensa-esp32s3 @ 12.2.0+20230208
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 54 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- DuckScriptInterpreter @ 0.0.0+20251220105921.sha.80aa375
+|-- ArduinoJson @ 7.4.2
+|-- LinkedList @ 0.0.0-alpha+sha.dac3874d28
+|-- Uptime Library @ 1.0.0+sha.81bb212
+|-- AsyncTCPSock @ 1.0.2-dev
+|-- Adafruit TinyUSB Library @ 0.0.0+sha.9305c9f
+|-- ESPAsyncWebServer @ 3.6.0+sha.b8f1105
+|-- ElegantOTA @ 3.1.0
+|-- NimBLE-Arduino @ 1.4.3
+|-- OneButton @ 2.6.1
+|-- LovyanGFX @ 1.2.7
+|-- MyLD2410 @ 1.0.13
+|-- APA102 @ 3.0.0+sha.aa62193
+|-- ESP32Marauder
+|-- usb-ncm
+|-- SD @ 3.0.5
+|-- SPI @ 3.0.5
+|-- FS @ 3.0.5
+|-- LittleFS @ 3.0.5
+|-- SPIFFS @ 3.0.5
+|-- Wire @ 3.0.5
+|-- WiFi @ 3.0.5
+|-- DNSServer @ 3.0.5
+|-- Update @ 3.0.5
+|-- SD_MMC @ 3.0.5
+|-- Preferences @ 3.0.5
+|-- NetworkClientSecure @ 3.0.5
+|-- WebServer @ 3.0.5
+Building in release mode
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Attacks\Ghost\SilentSentinel.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Attacks\Neo\EtherHarvest.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Attacks\Trinity\EapHarvester.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\AuxiliaryComponent\Sensors\Motion\LD2410\LD2410.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Comms\Web\NoWebServer.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Comms\Web\WebServer.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Debug\Logging.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Button\AXP2101\HardwareButton.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Button\GPIO\HardwareButton.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Button\NoHardwareButton.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Ethernet\CH9120\CH9120.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Ethernet\CH9120\HardwareEthernet.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Ethernet\W5500\HardwareEthernet.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\IR\HardwareIR.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\IR\NoHardwareIR.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\LED\APA102\HardwareLED.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\LED\FastLED\HardwareLED.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\LED\NoHardwareLED.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Microphone\NoHardwareMicrophone.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Microphone\SPM1423\HardwareMicrophone.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Platform\EvilCrowWind\EvilCrowWind.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Platform\NoBoardSupport.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Platform\TWatchS3\TWatchS3.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Storage\ESP32\SDMMCFS2.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Storage\HardwareStorage.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Storage\RP2040\SDClassWrapper.cpp.o
+src/Attacks/Ghost/SilentSentinel.cpp:26:27: error: conflicting declaration 'typedef struct wifi_promiscuous_pkt_t wifi_promiscuous_pkt_t'
+   26 | } __attribute__((packed)) wifi_promiscuous_pkt_t;
+      |                           ^~~~~~~~~~~~~~~~~~~~~~
+In file included from C:/Users/andre/.platformio/packages/framework-arduinoespressif32-libs/esp32s3/include/esp_wifi/include/esp_wifi.h:55,
+                 from src/Attacks/Ghost/SilentSentinel.h:4,
+                 from src/Attacks/Ghost/SilentSentinel.cpp:1:
+C:/Users/andre/.platformio/packages/framework-arduinoespressif32-libs/esp32s3/include/esp_wifi/include/esp_wifi_types.h:507:3: note: previous declaration as 'typedef struct wifi_promiscuous_pkt_t wifi_promiscuous_pkt_t'
+  507 | } wifi_promiscuous_pkt_t;
+      |   ^~~~~~~~~~~~~~~~~~~~~~
+src/Attacks/Ghost/SilentSentinel.cpp: In member function 'void SilentSentinel::processPacket(void*, wifi_promiscuous_pkt_type_t)':
+src/Attacks/Ghost/SilentSentinel.cpp:153:42: error: 'class HardwareStorage' has no member named 'appendToFile'
+  153 |                         Devices::Storage.appendToFile("sentinel.csv", logEntry + "\n");
+      |                                          ^~~~~~~~~~~~
+src/Attacks/Neo/EtherHarvest.cpp: In member function 'void EtherHarvest::runResponder()':
+src/Attacks/Neo/EtherHarvest.cpp:132:34: error: 'class HardwareStorage' has no member named 'appendToFile'
+  132 |                 Devices::Storage.appendToFile("etherhost_log.csv", logMsg + "\n");
+      |                                  ^~~~~~~~~~~~
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\TFT\HardwareTFT.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\TFT\NoHardwareTFT.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Touch\FT6236G\HardwareTouch.cpp.o
+Compiling .pio\build\LILYGO-T-Dongle-S3\src\src\Devices\Touch\NoHardwareTouch.cpp.o
+*** [.pio\build\LILYGO-T-Dongle-S3\src\src\Attacks\Ghost\SilentSentinel.cpp.o] Error 1
+*** [.pio\build\LILYGO-T-Dongle-S3\src\src\Attacks\Neo\EtherHarvest.cpp.o] Error 1
+src/Attacks/Trinity/EapHarvester.cpp: In member function 'void EapHarvester::logCredentials(const std::string&, const std::string&, const std::string&, const std::string&)':
+src/Attacks/Trinity/EapHarvester.cpp:193:22: error: 'class HardwareStorage' has no member named 'appendToFile'
+  193 |     Devices::Storage.appendToFile("eap_exfil.csv", mac + "," + user + "," + challenge + "," + response + "\n");
+      |                      ^~~~~~~~~~~~
+*** [.pio\build\LILYGO-T-Dongle-S3\src\src\Attacks\Trinity\EapHarvester.cpp.o] Error 1
+src/Comms/Web/WebServer.cpp:109:3: error: expected unqualified-id before 'if'
+  109 |   if (url == "/theme.css")
+      |   ^~
+src/Comms/Web/WebServer.cpp:134:3: error: expected unqualified-id before 'if'
+  134 |   if (url == "/js/ducky_visualizer.js" || url == "/js/log_widget.js") {
+      |   ^~
+src/Comms/Web/WebServer.cpp:139:3: error: expected unqualified-id before 'for'
+  139 |   for (const auto &[key, value] : staticHtmlFilesLookup)
+      |   ^~~
+src/Comms/Web/WebServer.cpp:146:3: error: expected unqualified-id before 'return'
+  146 |   return std::make_pair<const uint8_t *, size_t>(nullptr, 0);
+      |   ^~~~~~
+src/Comms/Web/WebServer.cpp:147:1: error: expected declaration before '}' token
+  147 | }
+      | ^
+src/Comms/Web/WebServer.cpp:336:3: error: expected unqualified-id before 'else'
+  336 |   else if (url == "/neo/start")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:342:3: error: expected unqualified-id before 'else'
+  342 |   else if (url == "/neo/stop")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:348:3: error: expected unqualified-id before 'else'
+  348 |   else if (url == "/trinity/start")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:354:3: error: expected unqualified-id before 'else'
+  354 |   else if (url == "/trinity/stop")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:360:3: error: expected unqualified-id before 'else'
+  360 |   else if (url == "/trinity/eap/start")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:366:3: error: expected unqualified-id before 'else'
+  366 |   else if (url == "/trinity/eap/stop")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:372:3: error: expected unqualified-id before 'else'
+  372 |   else if (url == "/ghost/start")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:378:3: error: expected unqualified-id before 'else'
+  378 |   else if (url == "/ghost/stop")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:384:3: error: expected unqualified-id before 'else'
+  384 |   else if (url == "/shadow/knock" && request->hasParam("key"))
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:392:3: error: expected unqualified-id before 'else'
+  392 |   else if (url == "/shadow/lock")
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:398:3: error: expected unqualified-id before 'else'
+  398 |   else if (url == "/download" && request->hasParam("filename"))
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:420:3: error: expected unqualified-id before 'else'
+  420 |   else if (url == "/delete" && request->hasParam("filename"))
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:430:3: error: expected unqualified-id before 'else'
+  430 |   else if (url.startsWith("/set") && preferences != nullptr && request->hasParam("name"))
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:456:3: error: expected unqualified-id before 'else'
+  456 |   else if (url.startsWith("/uploadFile"))
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:461:3: error: expected unqualified-id before 'else'
+  461 |   else
+      |   ^~~~
+src/Comms/Web/WebServer.cpp:500:1: error: expected declaration before '}' token
+  500 | }
+      | ^
+*** [.pio\build\LILYGO-T-Dongle-S3\src\src\Comms\Web\WebServer.cpp.o] Error 1
+========================= [FAILED] Took 68.79 seconds =========================
+
+Environment         Status    Duration
+------------------  --------  ------------
+LILYGO-T-Dongle-S3  FAILED    00:01:08.788
+==================== 1 failed, 0 succeeded in 00:01:08.788 ====================
