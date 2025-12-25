@@ -22,9 +22,9 @@ Recent enhancements (Encryption, DuckyScript Visualization) have elevated its op
 | **Persistence** | **T1098** | **Account Manipulation** | Scripts can be designed to add local user accounts or modify privileges. |
 | | **T1547.001** | **Registry Run Keys / Startup Folder** | Payloads can inject persistence mechanisms during the brief execution window. |
 | **Privilege Escalation**| **T1548.002** | **Bypass UAC** | Common DuckyScript payloads include UAC bypass techniques. |
-| **Defense Evasion** | **T1036** | **Masquerading** | Device identifies as a benign keyboard (VID/PID spoofing). |
+| **Defense Evasion** | **T1036** | **Masquerading** | **(Enhanced)** "Hydra-HID" cycles VID/PID (Dell, HP, etc.) to bypass DLP allowlists. |
 | | **T1218** | **System Binary Proxy Execution** | Using LOLBins (Living off the Land Binaries) via HID injection to evade AV. |
-| | **T1027** | **Obfuscated Files or Information** | **(New)** Encrypted Logs (AES-256) prevent forensic analysis of captured data on the device. |
+| | **T1027** | **Obfuscated Files or Information** | **(New)** Encrypted Logs (AES-256) prevent forensic analysis. "Shadow Volume" hides loot partitions until unlocked. |
 | **Discovery** | **T1040** | **Network Sniffing** | **(New)** "Silent Sentinel" passively logs WiFi probe requests to map device locations and identities. |
 | | **T1430** | **Location Tracking** | **(New)** Cataloging Probe Requests reveals previous locations/networks of victims. |
 | **Credential Access** | **T1557.001** | **LLMNR/NBT-NS Poisoning** | **(New)** "Ether-Harvest" responds to broadcast multicast name queries to spoof services. |

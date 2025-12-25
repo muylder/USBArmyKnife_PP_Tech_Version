@@ -22,6 +22,8 @@ void loop() {}
 #include "Attacks/Ducky/DuckyPayload.h"
 #include "Attacks/Ghost/SilentSentinel.h"
 #include "Attacks/Neo/EtherHarvest.h"
+#include "Attacks/Trinity/HydraHID.h"
+#include "Attacks/Shadow/ShadowVolume.h"
 #include "Attacks/Agent/Agent.h"
 
 #include "Debug/Logging.h"
@@ -68,6 +70,8 @@ void setup()
   Attacks::Ducky.begin(prefs);
   Attacks::Ghost.begin(prefs);
   Attacks::Neo.begin(prefs);
+  Attacks::Trinity.begin(prefs);
+  Attacks::GhostStorage.begin(prefs);
   Attacks::Agent.begin(prefs);
 
   if (!Devices::Storage.isRunning())
@@ -152,6 +156,8 @@ void loop()
   Attacks::Marauder.loop(prefs);
   Attacks::Ghost.loop(prefs);
   Attacks::Neo.loop(prefs);
+  Attacks::Trinity.loop(prefs);
+  Attacks::GhostStorage.loop(prefs);
   Attacks::Agent.loop(prefs);
 
   aux.loop(prefs);

@@ -21,6 +21,8 @@
 #include "../../Attacks/Ducky/DuckyPayload.h"
 #include "../../Attacks/Ghost/SilentSentinel.h"
 #include "../../Attacks/Neo/EtherHarvest.h"
+#include "../../Attacks/Trinity/HydraHID.h"
+#include "../../Attacks/Shadow/ShadowVolume.h"
 
 #include "../../Utilities/Settings.h"
 #include "../../version.h"
@@ -249,6 +251,9 @@ static void webRequestHandler(AsyncWebServerRequest *request)
     root["ghostCaptured"] = Attacks::Ghost.getCapturedCount();
     root["neoRunning"] = Attacks::Neo.isRunning();
     root["neoPoisoned"] = Attacks::Neo.getPoisonedCount();
+    root["hydraRunning"] = Attacks::Trinity.isRunning();
+    root["hydraIdentity"] = Attacks::Trinity.getCurrentIdentity().manufacturer + " " + Attacks::Trinity.getCurrentIdentity().product;
+    root["shadowActive"] = Attacks::GhostStorage.isShadowActive();
 
     response->setLength();
     response->addHeader("X-Content-Type-Options", "nosniff");
@@ -336,6 +341,18 @@ static void webRequestHandler(AsyncWebServerRequest *request)
     Attacks::Neo.stop();
     request->send(200, "text/plain", "Ether-Harvest Stopped");
   }
+  else if (url == "/trinity/start")
+  {
+    Debug::Log.info(LOG_WEB, "Starting Hydra-HID");
+    Attacks::Trinity.start();
+    request->send(200, "text/plain", "Hydra-HID Started");
+  }
+  else if (url == "/trinity/stop")
+  {
+     Debug::Log.info(LOG_WEB, "Stopping Hydra-HID");
+     Attacks::Trinity.stop();
+     request->send(200, "text/plain", "Hydra-HID Stopped");
+  }
   else if (url == "/ghost/start")
   {
     Debug::Log.info(LOG_WEB, "Starting Silent Sentinel");
@@ -347,6 +364,20 @@ static void webRequestHandler(AsyncWebServerRequest *request)
     Debug::Log.info(LOG_WEB, "Stopping Silent Sentinel");
     Attacks::Ghost.stop();
     request->send(200, "text/plain", "Silent Sentinel Stopped");
+  }
+  else if (url == "/shadow/knock" && request->hasParam("key"))
+  {
+     // Shadow Volume Secret Knock
+     const String key = request->getParam("key")->value();
+     Debug::Log.info(LOG_WEB, "Received Shadow Knock");
+     Attacks::GhostStorage.registerKnock(std::string(key.c_str()));
+     request->redirect("/index.html");
+  }
+  else if (url == "/shadow/lock")
+  {
+     Debug::Log.info(LOG_WEB, "Locking Shadow Volume");
+     Attacks::GhostStorage.disableShadow();
+     request->redirect("/index.html");
   }
   else if (url == "/download" && request->hasParam("filename"))
   {
