@@ -32,6 +32,8 @@ void loop() {}
 #endif
 
 #include "Attacks/Red/CaptivePortal.h"
+#include "Attacks/Red/Responder.h"
+#include "Attacks/Red/AutoPwnEngine.h"
 
 #ifdef ENABLE_BLUE_TEAM_TELEMETRY
 #include "Attacks/Blue/Telemetry.h"
@@ -62,6 +64,8 @@ void networkTask(void *pvParameters) {
 #endif
 
     Attacks::Red::Portal.loop(prefs);
+    Attacks::Red::ResponderC2.loop(prefs);
+    Attacks::Red::PwnEngine.loop(prefs);
 
 #ifdef ENABLE_BLUE_TEAM_TELEMETRY
     Attacks::Blue::Logger.loop(prefs);
@@ -113,6 +117,8 @@ void setup()
 #endif
 
   Attacks::Red::Portal.begin(prefs);
+  Attacks::Red::ResponderC2.begin(prefs);
+  Attacks::Red::PwnEngine.begin(prefs);
 
 #ifdef ENABLE_BLUE_TEAM_TELEMETRY
   Attacks::Blue::Logger.begin(prefs);

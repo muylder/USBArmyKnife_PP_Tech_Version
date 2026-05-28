@@ -1,0 +1,114 @@
+:root {
+    --bg-color: #0f0f13;
+    --card-bg: #1a1a24;
+    --text-primary: #e0e0e0;
+    --text-secondary: #8a8a9a;
+    --accent: #ff4757;
+    --border-color: #2f2f3d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot.green {
+    background-color: #2ed573;
+    box-shadow: 0 0 10px #2ed573;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+}
+
+.card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #fff;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.log-window {
+    flex: 1;
+    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    background-color: #111116;
+    border-radius: 6px;
+    padding: 10px;
+    color: #4cd137;
+    word-break: break-all;
+}
+
+.log-entry {
+    margin-bottom: 8px;
+    border-bottom: 1px dashed #2f2f3d;
+    padding-bottom: 4px;
+}
+
+.timestamp {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    margin-right: 8px;
+}
+
+.alert-high {
+    color: var(--accent);
+    font-weight: bold;
+}

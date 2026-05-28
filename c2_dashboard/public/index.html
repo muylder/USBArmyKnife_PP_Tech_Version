@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USBArmyKnife - Blue Team C2 Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <header>
+        <h1>USBArmyKnife Telemetry C2</h1>
+        <div class="status">
+            <span class="dot green"></span> Live UDP Stream
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <section class="card" id="keystrokes-card">
+            <h2>⌨️ Intercepted Keystrokes</h2>
+            <div class="log-window" id="log-keystrokes"></div>
+        </section>
+
+        <section class="card" id="honeypot-card">
+            <h2>🍯 Honeypot Alerts</h2>
+            <div class="log-window" id="log-honeypot"></div>
+        </section>
+
+        <section class="card" id="network-card">
+            <h2>🌐 Network Scans & Captive Portal</h2>
+            <div class="log-window" id="log-network"></div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
