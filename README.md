@@ -68,50 +68,92 @@ To compile and flash the USBArmyKnife to your hardware, you will need **Platform
 
 ---
 
-## 📖 Mini-Tutorials: Using the Tools
+## 📖 Detailed How-To Use Guide
 
-### 1. Using the AutoPwn Engine
-The AutoPwn engine allows you to script attacks that run the moment the USB is plugged in.
-1. Insert your MicroSD card into your computer.
-2. Create a file named `autopwn.txt` in the root directory.
-3. Write your payload sequence. Example:
-   ```text
-   WAIT 2000
-   INJECT powershell -w hidden -c "echo 'Pwned' > C:\pwn.txt"
-   START_RESPONDER
-   ```
-4. Insert the SD card into the dongle and plug it into the target. The script will execute automatically.
+### 1. Initial Setup & Connection
+Before using the USBArmyKnife, ensure it has been flashed with the latest firmware via PlatformIO (using `pio run -e LILYGO-T-Dongle-S3 -t upload` for the recommended T-Dongle S3).
+1. **Plug the device** into a USB port on the host machine.
+2. **Connect to its WiFi Access Point**:
+   - **SSID**: `iPhone14`
+   - **Password**: `password`
+3. **Access the Web Interface**: Once connected, open a browser and navigate to `http://4.3.2.1:8080`.
 
-### 2. Launching the Blue Team C2 Dashboard
-To view live telemetry, honeypot alerts, and captured credentials:
-1. Ensure Node.js is installed on your auditing laptop.
-2. Navigate to the `c2_dashboard` folder:
-   ```bash
-   cd c2_dashboard
-   npm install
-   node server.js
-   ```
-3. Open your browser to `http://localhost:3002`.
-4. Connect the USBArmyKnife to the machine. As it performs network scans or detects honeypot tampering, the dashboard will light up with real-time logs.
+### 2. Using the Web Interface
+The web interface is your command center for configuring and triggering payloads:
+- **Status Dashboard**: Check the uptime, storage usage (SD card or Internal Flash), and the status of any currently running attacks.
+- **File Manager**: Upload, download, edit, or delete DuckyScript payloads directly on the device's storage.
+- **Payload Execution**: Browse your scripts and run them on-demand directly from the browser.
+- **Marauder Control**: Access the WiFi attack subsystem to perform wardriving or deauth attacks.
+- **Agent Output**: View results from commands sent to a compromised host via the Agent C2 channel.
 
-### 3. Activating the LLMNR Poisoner
-To capture NetNTLMv2 hashes from a Windows machine:
-1. Ensure the dongle is configured to enumerate as a USB Ethernet interface (NCM mode).
-2. The Responder module runs automatically in the background. If the target Windows machine tries to resolve a local hostname that doesn't exist (e.g., a typo in a network share), the dongle will intercept it.
-3. The captured negotiation packets are saved to `smb_capture.bin` on the SD card for offline cracking with Hashcat.
+### 3. DuckyScript & AutoPwn Execution
+The device can run payloads automatically upon insertion or manually via the Web UI or Bluetooth.
 
-### 4. Setting up Covert HID Exfiltration
-To steal data from an air-gapped machine without a network connection:
-1. Plug the USBArmyKnife into the target machine.
-2. Run a script on the target machine that reads the sensitive file and translates the binary data into Keyboard LED toggles.
-   - Example mechanism: Toggle `Caps Lock` to represent a `1` or `0`, and toggle `Scroll Lock` to signal the "Clock" (telling the dongle to read the bit).
-3. The dongle will silently reconstruct the flashing LEDs into binary data and save it directly to `/exfil.bin` on the SD card.
+**AutoPwn (Plug-and-Play Attacks)**
+To run a script automatically the moment the USB is inserted:
+1. Create a script named `autopwn.txt` on the root of your MicroSD card.
+2. Insert the card into the USBArmyKnife.
+3. Plug the device into the target. The script will execute immediately.
 
-### 5. Using the Covert BLE Terminal
-To trigger DuckyScript payloads from across the room:
-1. Download a BLE UART app (like nRF Connect or Adafruit Bluefruit LE Connect) on your smartphone.
-2. Connect to the Bluetooth device named `USBArmyKnife_C2`.
-3. Open the UART terminal and send commands like `exec ducky_script.txt` to trigger physical keystroke injections on the target machine while you are safely out of sight.
+**Covert BLE C2 Terminal**
+Trigger payloads without touching the target machine:
+1. Download a BLE UART app (e.g., nRF Connect) on your smartphone.
+2. Connect to `USBArmyKnife_C2` via Bluetooth.
+3. Open the UART terminal and type commands such as `exec my_payload.txt`.
+
+### 4. Advanced HID & Automation Features
+The USBArmyKnife supports standard DuckyScript along with powerful custom extensions for advanced stealth and interaction.
+
+**Important Custom Commands:**
+- `RAW_HID [0xXX] [modifier]`: Send precise raw HID keyboard codes.
+- `MOUSE_MOVE [x] [y]`: Manipulate the mouse cursor.
+- `MOUSE_JIGGLE`: Prevent the host machine from sleeping.
+- `CALC`: Instantly launch the system calculator.
+- `KEYBOARD_LAYOUT [layout]`: Switch keyboard layouts dynamically to match the target OS.
+
+**Stealth & Triggers:**
+- `RANDOM_DELAY [min] [max]`: Introduces random wait times to evade behavioral analysis.
+- `WAIT_FOR_CAPS_CHANGE`, `WAIT_FOR_CAPS_ON`, `WAIT_FOR_CAPS_OFF`: Wait for the target to toggle Caps Lock before proceeding.
+- Similar triggers are available for Num Lock (`WAIT_FOR_NUM_CHANGE`) and Scroll Lock (`WAIT_FOR_SCROLL_CHANGE`).
+
+**Mass Storage (MSC):**
+- `USB_MOUNT_DISK_READ_ONLY [image.img]`: Mount a virtual disk image as a USB Drive.
+- `USB_MOUNT_CDROM_READ_ONLY [image.iso]`: Mount an ISO file to impersonate a CD-ROM.
+- `WAIT_FOR_USB_STORAGE_ACTIVITY`: Pause script execution until the host OS starts reading from the USB drive.
+
+### 5. Network & Captive Portal Attacks
+
+**LLMNR Poisoner (Responder)**
+Capture NetNTLMv2 hashes for offline cracking:
+1. Ensure the USBArmyKnife is configured in NCM Ethernet mode.
+2. The onboard Responder module runs automatically. When a Windows target attempts to resolve a non-existent local hostname, the dongle replies and forces SMB authentication.
+3. Hashes are saved to `smb_capture.bin` on the SD card.
+
+**DNS Captive Portal**
+Steal credentials via fake Wi-Fi:
+- The device can host a rogue Wi-Fi network with a Captive Portal.
+- Users connecting will be prompted to enter credentials which are harvested and saved to the SD card.
+
+**Blue Team Auditing**
+- Launch the real-time telemetry dashboard on your auditing machine:
+  ```bash
+  cd c2_dashboard
+  npm install
+  node server.js
+  ```
+- Open `http://localhost:3002` to monitor intercepted keystrokes, honeypot access logs, and port scanning results.
+
+### 6. WiFi Attacks (ESP32 Marauder)
+The integrated ESP32 Marauder engine allows for robust wireless attacks. You can control this from the Web Interface or trigger it via DuckyScript:
+- `ESP32_MARAUDER [command]`: Pass native Marauder commands directly.
+- `WIFI_ON` / `WIFI_OFF`: Toggle the device's management Access Point.
+- Use the Marauder engine to sniff beacons, capture PMKIDs, or execute Deauthentication attacks.
+
+### 7. Agent C2 Interaction
+The device can establish a covert Command & Control channel over the USB Serial interface:
+- `AGENT_RUN [command]`: Send a background shell command to the victim machine.
+- `WAIT_FOR_AGENT_RUN_RESULT`: Pause payload execution until the output from the victim machine is received.
+- Use the Web Interface's **Agent Interaction** tab to view the terminal output of compromised hosts.
 
 ---
 
